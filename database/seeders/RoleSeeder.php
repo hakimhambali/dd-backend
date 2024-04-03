@@ -18,5 +18,11 @@ class RoleSeeder extends Seeder
         ], [
             'name' => Role::ADMIN,
         ]);
+
+        Role::updateOrInsert([
+            'id' => Role::ID_EMPLOYEE,
+        ], [
+            'name' => Role::EMPLOYEE,
+        ]);
     }
 }
