@@ -10,5 +10,5 @@ class Role extends SpatieRole
     public const ID_EMPLOYEE = 2;
 
     public const ADMIN = 'admin';
-    public const EMPLOYEE = 'EMPLOYEE';
+    public const EMPLOYEE = 'employee';
 }
