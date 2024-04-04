@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\RolesEnum;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -13,16 +13,10 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::updateOrInsert([
-            'id' => Role::ID_ADMIN,
-        ], [
-            'name' => Role::ADMIN,
-        ]);
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Role::updateOrInsert([
-            'id' => Role::ID_EMPLOYEE,
-        ], [
-            'name' => Role::EMPLOYEE,
-        ]);
+        Role::create(['name' => RolesEnum::ADMIN->value]);
+
+        Role::create(['name' => RolesEnum::EMPLOYEE->value]);
     }
 }

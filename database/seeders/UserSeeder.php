@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Enums\RolesEnum;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +21,6 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $admin->syncRoles([Role::ADMIN]);
+        $admin->assignRole(RolesEnum::ADMIN);
     }
 }
