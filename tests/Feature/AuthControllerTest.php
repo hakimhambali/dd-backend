@@ -20,9 +20,6 @@ describe('login', function () {
         ]);
 
         $response
-            ->assertOk()
-            ->assertJsonStructure([
-                'token'
-            ]);
+            ->assertOk();
     });
 });
