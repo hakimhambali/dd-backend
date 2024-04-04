@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\PaginateTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -14,7 +15,10 @@ class UserController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $user = User::query();
+        $user = User::query()
+            ->where(request('name'), function (Builder $query, string $name) {
+                $query->where('name', 'like', "%$name%");
+            });
 
         return UserResource::collection($this->paginateOrGet($user));
     }
