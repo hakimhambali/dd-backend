@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $user = User::query()
-            ->where(request('name'), function (Builder $query, string $name) {
+            ->when(request('name'), function (Builder $query, string $name) {
                 $query->where('name', 'like', "%$name%");
             });
 
