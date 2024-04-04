@@ -8,11 +8,7 @@ beforeEach(function () {
 
 describe('login', function () {
     test('user can login', function () {
-        $user = User::create([
-            'name' => 'Brandon Lewis',
-            'email' => 'kifke@nuwno.fi',
-            'password' => bcrypt('password'),
-        ]);
+        $user = User::factory()->create();
 
         $response = $this->postJson('api/login', [
             'email' => $user->email,
