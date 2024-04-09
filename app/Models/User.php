@@ -49,6 +49,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function getRoleAttribute(): string
+    {
+        return RolesEnum::from($this->getRoleNames()[0])->label();
+    }
+
     public function isAdmin(): bool
     {
         return $this->hasRole(RolesEnum::ADMIN);
