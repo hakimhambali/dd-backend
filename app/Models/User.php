@@ -53,7 +53,13 @@ class User extends Authenticatable
 
     public function getRoleAttribute(): string
     {
-        return RolesEnum::from($this->getRoleNames()[0])->label();
+        $role = '';
+
+        if ($this->getRoleNames()->isNotEmpty()) {
+            $role = RolesEnum::from($this->getRoleNames()[0])->label();
+        }
+
+        return $role;
     }
 
     public function isAdmin(): bool
