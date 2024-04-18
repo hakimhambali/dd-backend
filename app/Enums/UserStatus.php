@@ -2,15 +2,25 @@
 
 namespace App\Enums;
 
-enum UserStatus
+enum UserStatus: string
 {
-    case ACTIVE;
-    case INACTIVE;
-    case PENDING;
-    case DELETED;
+    case ACTIVE = 'active';
+    case INACTIVE = 'inactive';
+    case PENDING = 'pending';
+    case DELETED = 'deleted';
 
-    public static function names(): array
+    public static function values(): array
     {
-        return array_column(self::cases(), 'name');
+        return array_column(self::cases(), 'value');
+    }
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::ACTIVE => 'Active',
+            self::INACTIVE => 'Inactive',
+            self::PENDING => 'Pending',
+            self::DELETED => 'Deleted',
+        };
     }
 }

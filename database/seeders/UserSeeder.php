@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         ], [
             'name' => 'Admin',
             'password' => bcrypt('password'),
-            'status' => UserStatus::ACTIVE->name,
+            'status' => UserStatus::ACTIVE->value,
         ]);
 
         $admin->assignRole(RolesEnum::ADMIN);
