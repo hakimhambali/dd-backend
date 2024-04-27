@@ -50,6 +50,10 @@ class User extends Authenticatable
         ];
     }
 
+    protected $with = [
+        'profile',
+    ];
+
     public function getRoleAttribute(): string
     {
         $role = '';

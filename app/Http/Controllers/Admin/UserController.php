@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $user = User::with(['profile'])
+        $user = User::query()
             ->whereHas('roles', function (Builder $query) {
                 $query->whereNotIn('name', [RolesEnum::ADMIN->value]);
             })
