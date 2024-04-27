@@ -37,6 +37,10 @@ class UserController extends Controller
 
         $user = User::create($input);
 
+        $user->profile->update([
+            'full_name' => $input['name'],
+        ]);
+
         $user->assignRole(RolesEnum::EMPLOYEE);
 
         return response()->noContent(Response::HTTP_CREATED);
