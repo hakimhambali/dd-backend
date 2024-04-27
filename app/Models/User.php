@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\RolesEnum;
 use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -22,7 +23,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
     ];
@@ -47,7 +47,6 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'status' => UserStatus::class,
         ];
     }
 
@@ -60,6 +59,20 @@ class User extends Authenticatable
         }
 
         return $role;
+    }
+
+    public function getStatusAttribute(): string
+    {
+        if ($this->email_verified_at) {
+            return is_null($this->deleted_at) ? UserStatus::ACTIVE->label() : UserStatus::DEACTIVATE->label();
+        } else {
+            return UserStatus::PENDING->label();
+        }
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
     }
 
     public function isAdmin(): bool

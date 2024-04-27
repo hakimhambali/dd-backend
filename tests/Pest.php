@@ -11,6 +11,9 @@
 |
 */
 
+use App\Enums\RolesEnum;
+use App\Models\User;
+
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
@@ -42,7 +45,19 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createUser(RolesEnum $role): User
 {
-    // ..
+    return tap(User::factory()->create(), function (User $user) use ($role) {
+        $user->syncRoles($role);
+    });
+}
+
+function createAdmin(): User
+{
+    return createUser(RolesEnum::ADMIN);
+}
+
+function asAdmin(): Tests\TestCase
+{
+    return test()->actingAs(createAdmin());
 }

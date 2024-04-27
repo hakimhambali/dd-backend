@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\UserStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,10 +16,10 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
-            'status' => $this->status->label(),
+            'status' => $this->status,
+            'profile' => ProfileResource::make($this->whenLoaded('profile')),
             'created_at' => $this->created_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
             'updated_at' => $this->updated_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
         ];
