@@ -10,8 +10,8 @@ trait PaginateTrait
 {
     private function paginateOrGet(Builder $query): LengthAwarePaginator | Collection
     {
-        if (($per_page = intval(request('per_page'))) && $per_page > 0) {
-            $data = $query->paginate($per_page);
+        if (($perPage = intval(request('per_page'))) && $perPage > 0) {
+            $data = $query->paginate($perPage);
         } else {
             $data = $query->get();
         }
