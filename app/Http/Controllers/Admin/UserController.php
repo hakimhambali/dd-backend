@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\RolesEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -18,7 +19,10 @@ class UserController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $user = User::query()
+        $user = User::with(['profile'])
+            ->whereHas('roles', function (Builder $query) {
+                $query->whereNotIn('name', [RolesEnum::ADMIN->value]);
+            })
             ->when(request('name'), function (Builder $query, string $name) {
                 $query->where('name', 'like', "%$name%");
             });
