@@ -19,8 +19,9 @@ class UserSeeder extends Seeder
             'email' => 'admin@mail.test',
         ], [
             'password' => bcrypt('password'),
-            'status' => UserStatus::ACTIVE->value,
         ]);
+
+        $admin->markEmailAsVerified();
 
         $admin->assignRole(RolesEnum::ADMIN);
     }
