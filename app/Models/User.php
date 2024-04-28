@@ -56,13 +56,7 @@ class User extends Authenticatable
 
     public function getRoleAttribute(): string
     {
-        $role = '';
-
-        if ($this->getRoleNames()->isNotEmpty()) {
-            $role = RolesEnum::from($this->getRoleNames()[0])->label();
-        }
-
-        return $role;
+        return $this->getRoleNames()->isNotEmpty() ? RolesEnum::from($this->getRoleNames()[0])->label() : '';
     }
 
     public function getStatusAttribute(): string
