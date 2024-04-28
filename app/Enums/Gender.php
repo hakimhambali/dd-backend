@@ -11,9 +11,4 @@ enum Gender: string
     {
         return array_column(self::cases(), 'value');
     }
-
-    public function label(): string
-    {
-        return ucfirst($this->value);
-    }
 }
