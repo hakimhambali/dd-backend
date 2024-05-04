@@ -36,6 +36,15 @@ describe('index', function () {
             ])
             ->assertJsonCount($numOfUsers, 'data');
     });
+
+    test('user cannot get list if not an admin', function () {
+        $numOfUsers = 5;
+        User::factory()->count($numOfUsers)->create();
+
+        $this->actingAs(User::first())
+            ->getJson('api/admin/users')
+            ->assertForbidden();
+    });
 });
 
 describe('store', function () {
