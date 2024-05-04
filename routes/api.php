@@ -1,7 +1,5 @@
 <?php
 
-use App\Enums\RolesEnum;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -14,10 +12,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     Route::singleton('profile', ProfileController::class);
-
-    Route::prefix('admin')->name('admin.')->middleware('role:'.RolesEnum::ADMIN->value)->group(function () {
-        Route::apiResources([
-            'users' => UserController::class,
-        ]);
-    });
 });
