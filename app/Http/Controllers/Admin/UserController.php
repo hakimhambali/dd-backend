@@ -12,6 +12,7 @@ use App\Traits\PaginateTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -54,9 +55,9 @@ class UserController extends Controller implements HasMiddleware
         return response()->noContent(Response::HTTP_CREATED);
     }
 
-    public function show(User $user)
+    public function show(User $user): JsonResource
     {
-        
+        return UserResource::make($user->load('profile'));
     }
 
     public function update(Request $request, User $user)
