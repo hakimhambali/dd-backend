@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\RolesEnum;
 use App\Enums\UserStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -66,6 +67,13 @@ class User extends Authenticatable
         } else {
             return UserStatus::PENDING->label();
         }
+    }
+
+    public function scopeNotAdmin(Builder $query): void
+    {
+        $query->whereHas('roles', function (Builder $query) {
+            $query->whereNotIn('name', [RolesEnum::ADMIN->value]);
+        });
     }
 
     public function profile(): HasOne

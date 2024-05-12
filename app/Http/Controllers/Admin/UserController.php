@@ -30,9 +30,7 @@ class UserController extends Controller implements HasMiddleware
     public function index(): AnonymousResourceCollection
     {
         $user = User::query()
-            ->whereHas('roles', function (Builder $query) {
-                $query->whereNotIn('name', [RolesEnum::ADMIN->value]);
-            })
+            ->notAdmin()
             ->when(request('name'), function (Builder $query, string $name) {
                 $query->where('name', 'like', "%$name%");
             });
