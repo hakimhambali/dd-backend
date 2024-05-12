@@ -10,7 +10,7 @@ beforeEach(function () {
 
 test('can get user role attribute', function () {
     $user = User::factory()->create();
-    $user->assignRole(RolesEnum::ADMIN);
+    $user->syncRoles(RolesEnum::ADMIN);
 
     expect($user->role)->toBe(RolesEnum::ADMIN->label());
 });
