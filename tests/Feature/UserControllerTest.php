@@ -51,6 +51,7 @@ describe('store', function () {
     test('can store new user', function () {
         $payload = [
             'email' => 'riepatil@ganmohi.hr',
+            'name' => 'Leah Simon',
         ];
 
         asAdmin()
