@@ -64,3 +64,23 @@ describe('store', function () {
         ]);
     });
 });
+
+describe('destroy', function () {
+    test('cannot delete auth user', function () {
+        asAdmin()
+            ->deleteJson('api/admin/users/1')
+            ->assertForbidden();
+    });
+
+    test('can delete user', function () {
+        $user = User::factory()->create();
+
+        asAdmin()
+            ->deleteJson('api/admin/users/' . $user->id)
+            ->assertNoContent();
+
+        $this->assertDatabaseMissing(User::class, [
+            'id' => $user->id,
+        ]);
+    });
+});

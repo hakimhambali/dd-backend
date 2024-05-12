@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\RolesEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\IsUserAllowToBeDeleted;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -12,10 +13,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
     use PaginateTrait;
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(IsUserAllowToBeDeleted::class, only: ['destroy']),
+        ];
+    }
 
     public function index(): AnonymousResourceCollection
     {
@@ -58,10 +68,6 @@ class UserController extends Controller
 
     public function destroy(User $user): Response
     {
-        $userCannotBeDeleted = $user->isAdmin() || ($user->id === auth()->id());
-
-        abort_if($userCannotBeDeleted, Response::HTTP_FORBIDDEN, 'User cannot be deleted.');
-
         $user->delete();
 
         return response()->noContent();
