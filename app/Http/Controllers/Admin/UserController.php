@@ -55,9 +55,9 @@ class UserController extends Controller implements HasMiddleware
         return UserResource::make($user);
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): Response
     {
-        
+        return response()->noContent();
     }
 
     public function destroy(User $user): Response
