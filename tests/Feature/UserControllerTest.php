@@ -106,6 +106,35 @@ describe('store', function () {
     });
 });
 
+describe('show', function () {
+    test('admin can view a user', function () {
+        $user = User::factory()->create();
+
+        asAdmin()
+            ->getJson('api/admin/users/' . $user->id)
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'email',
+                    'profile' => [
+                        'full_name',
+                    ],
+                ],
+            ])
+            ->assertJsonFragment([
+                'id' => $user->id,
+                'email' => $user->email,
+            ]);
+    });
+
+    test('admin cannot view invalid user', function () {
+        asAdmin()
+            ->getJson('api/admin/users/invalid-id')
+            ->assertNotFound();
+    });
+});
+
 describe('destroy', function () {
     test('cannot delete auth user', function () {
         asAdmin()

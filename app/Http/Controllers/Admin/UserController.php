@@ -52,7 +52,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function show(User $user): JsonResource
     {
-        return UserResource::make($user->load('profile'));
+        return UserResource::make($user);
     }
 
     public function update(Request $request, User $user)
