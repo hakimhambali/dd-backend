@@ -45,6 +45,46 @@ describe('index', function () {
             ->getJson('api/admin/users')
             ->assertForbidden();
     });
+
+    test('admin can search user by name', function () {
+        $numOfUsers = 5;
+        User::factory()->count($numOfUsers)->create();
+
+        $user = User::first();
+
+        $query = http_build_query([
+            'name' => $user->profile->full_name,
+        ]);
+
+        asAdmin()
+            ->getJson('api/admin/users?' . $query)
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment([
+                'id' => $user->id,
+                'email' => $user->email,
+            ]);
+    });
+
+    test('admin can search user by email', function () {
+        $numOfUsers = 5;
+        User::factory()->count($numOfUsers)->create();
+
+        $user = User::first();
+
+        $query = http_build_query([
+            'email' => $user->email,
+        ]);
+
+        asAdmin()
+            ->getJson('api/admin/users?' . $query)
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment([
+                'id' => $user->id,
+                'email' => $user->email,
+            ]);
+    });
 });
 
 describe('store', function () {

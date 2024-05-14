@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -55,6 +56,8 @@ class User extends Authenticatable
         'profile',
     ];
 
+    public const DEFAULT_PASSWORD = 'passw0rd*1234';
+
     public function getRoleAttribute(): string
     {
         return $this->getRoleNames()->isNotEmpty() ? RolesEnum::from($this->getRoleNames()[0])->label() : '';
@@ -74,6 +77,17 @@ class User extends Authenticatable
         $query->whereHas('roles', function (Builder $query) {
             $query->whereNotIn('name', [RolesEnum::ADMIN->value]);
         });
+    }
+
+    public function scopeSearch(Builder $query, Request $request): void
+    {
+        $query
+            ->when($request->query('name'), function (Builder $query, string $name) {
+                $query->whereHas('profile', fn (Builder $query) => $query->where('full_name', 'like', "%$name%"));
+            })
+            ->when($request->query('email'), function (Builder $query, string $email) {
+                $query->where('email', 'like', "%$email%");
+            });
     }
 
     public function profile(): HasOne

@@ -9,7 +9,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\PaginateTrait;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,7 +20,7 @@ class UserController extends Controller implements HasMiddleware
 {
     use PaginateTrait;
 
-    public static function middleware()
+    public static function middleware(): array
     {
         return [
             new Middleware(IsUserAllowToBeDeleted::class, only: ['destroy']),
@@ -30,11 +29,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function index(): AnonymousResourceCollection
     {
-        $user = User::query()
-            ->notAdmin()
-            ->when(request('name'), function (Builder $query, string $name) {
-                $query->where('name', 'like', "%$name%");
-            });
+        $user = User::notAdmin()->search(request());
 
         return UserResource::collection($this->paginateOrGet($user));
     }
@@ -42,7 +37,7 @@ class UserController extends Controller implements HasMiddleware
     public function store(StoreUserRequest $request): Response
     {
         $input = $request->validated();
-        $input['password'] = bcrypt('password');
+        $input['password'] = bcrypt(User::DEFAULT_PASSWORD);
 
         $user = User::create($input);
 
