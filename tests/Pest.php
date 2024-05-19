@@ -45,7 +45,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function createUser(RolesEnum $role): User
+function createUser(RolesEnum $role = RolesEnum::USER): User
 {
     return tap(User::factory()->create(), function (User $user) use ($role) {
         $user->syncRoles($role);

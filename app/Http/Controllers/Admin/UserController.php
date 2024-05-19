@@ -45,7 +45,7 @@ class UserController extends Controller implements HasMiddleware
             'full_name' => $input['name'],
         ]);
 
-        $user->assignRole(RolesEnum::EMPLOYEE);
+        $user->assignRole(RolesEnum::USER);
 
         return response()->noContent(Response::HTTP_CREATED);
     }

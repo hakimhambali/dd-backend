@@ -74,9 +74,7 @@ class User extends Authenticatable
 
     public function scopeNotAdmin(Builder $query): void
     {
-        $query->whereHas('roles', function (Builder $query) {
-            $query->whereNotIn('name', [RolesEnum::ADMIN->value]);
-        });
+        $query->whereHas('roles', fn (Builder $query) => $query->whereNotIn('name', [RolesEnum::ADMIN->value]));
     }
 
     public function scopeSearch(Builder $query, Request $request): void

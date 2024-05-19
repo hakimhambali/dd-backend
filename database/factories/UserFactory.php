@@ -55,7 +55,7 @@ class UserFactory extends Factory
                 'gender' => $this->faker->randomElement(Gender::values()),
             ]);
 
-            $user->assignRole(RolesEnum::EMPLOYEE);
+            $user->assignRole(RolesEnum::USER);
         });
     }
 }

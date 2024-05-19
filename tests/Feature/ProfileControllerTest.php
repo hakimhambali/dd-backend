@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\Gender;
-use App\Enums\RolesEnum;
 use App\Models\Profile;
 use Database\Seeders\RoleSeeder;
 
@@ -11,7 +10,7 @@ beforeEach(function () {
 
 describe('update', function () {
     test('user can update profile', function () {
-        $user = createUser(RolesEnum::EMPLOYEE);
+        $user = createUser();
 
         $payload = [
             'full_name' => 'Another Name',
