@@ -11,5 +11,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('ping', [AuthController::class, 'index']);
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-    Route::singleton('profile', ProfileController::class);
+    Route::apiSingleton('profile', ProfileController::class);
 });

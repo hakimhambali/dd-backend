@@ -8,6 +8,23 @@ beforeEach(function () {
     $this->seed(RoleSeeder::class);
 });
 
+describe('show', function () {
+    test('user can view their own profile', function () {
+        $user = createUser();
+
+        $this->actingAs($user)
+            ->getJson('api/profile')
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $user->id,
+            ])
+            ->assertJsonFragment([
+                'id' => $user->profile->id,
+                'full_name' => $user->profile->full_name,
+            ]);
+    });
+});
+
 describe('update', function () {
     test('user can update profile', function () {
         $user = createUser();
