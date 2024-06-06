@@ -2,7 +2,9 @@
 
 use App\Models\Profile;
 use App\Models\User;
+use App\Notifications\WelcomeUser;
 use Database\Seeders\RoleSeeder;
+use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
     $this->seed(RoleSeeder::class);
@@ -89,6 +91,8 @@ describe('index', function () {
 
 describe('store', function () {
     test('can store new user', function () {
+        Notification::fake();
+
         $payload = [
             'email' => 'riepatil@ganmohi.hr',
             'name' => 'Leah Simon',
@@ -103,6 +107,11 @@ describe('store', function () {
         $this->assertDatabaseHas(Profile::class, [
             'user_id' => $user->id,
         ]);
+
+        Notification::assertCount(1);
+        Notification::assertSentTo(
+            [$user], WelcomeUser::class
+        );
     });
 });
 

@@ -8,6 +8,7 @@ use App\Http\Middleware\IsUserAllowToBeDeleted;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Notifications\WelcomeUser;
 use App\Traits\PaginateTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -46,6 +47,8 @@ class UserController extends Controller implements HasMiddleware
         ]);
 
         $user->assignRole(RolesEnum::USER);
+
+        $user->notify(new WelcomeUser());
 
         return response()->noContent(Response::HTTP_CREATED);
     }
