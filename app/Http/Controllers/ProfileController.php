@@ -11,7 +11,7 @@ class ProfileController extends Controller
 {
     public function show(): JsonResource
     {
-        return UserResource::make(auth()->user());
+        return UserResource::make(auth()->user()->load('profile'));
     }
 
     public function update(UpdateProfileRequest $request): Response
