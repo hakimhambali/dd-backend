@@ -7,9 +7,11 @@ namespace App\Models;
 use App\Enums\RolesEnum;
 use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +20,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasRoles, HasFactory, Notifiable;
+    use HasApiTokens, HasRoles, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -59,18 +61,24 @@ class User extends Authenticatable
 
     public const DEFAULT_PASSWORD = 'passw0rd*1234';
 
-    public function getRoleAttribute(): string
+    protected function role(): Attribute
     {
-        return $this->getRoleNames()->isNotEmpty() ? RolesEnum::from($this->getRoleNames()[0])->label() : '';
+        return Attribute::make(
+            get: fn () => $this->getRoleNames()->isNotEmpty() ? RolesEnum::from($this->getRoleNames()[0])->label() : '',
+        );
     }
 
-    public function getStatusAttribute(): string
+    public function status(): Attribute
     {
-        if ($this->email_verified_at) {
-            return is_null($this->deleted_at) ? UserStatus::ACTIVE->label() : UserStatus::DEACTIVATE->label();
-        } else {
-            return UserStatus::PENDING->label();
-        }
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                if ($attributes['email_verified_at']) {
+                    return !isset($attributes['deleted_at']) ? UserStatus::ACTIVE->label() : UserStatus::DEACTIVATE->label();
+                } else {
+                    return UserStatus::PENDING->label();
+                }
+            },
+        );
     }
 
     public function scopeNotAdmin(Builder $query): void
