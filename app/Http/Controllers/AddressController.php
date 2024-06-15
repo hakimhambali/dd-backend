@@ -54,7 +54,6 @@ class AddressController extends Controller
         return AddressResource::make($address);
     }
 
-
     /**
      * Update the specified address in storage.
      */
