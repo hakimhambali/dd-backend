@@ -18,7 +18,6 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'role' => $this->role,
-            'status' => $this->status,
             'profile' => ProfileResource::make($this->whenLoaded('profile')),
             'created_at' => $this->created_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
             'updated_at' => $this->updated_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),

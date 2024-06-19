@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\RolesEnum;
-use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -65,19 +64,6 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn () => $this->getRoleNames()->isNotEmpty() ? RolesEnum::from($this->getRoleNames()[0])->label() : '',
-        );
-    }
-
-    public function status(): Attribute
-    {
-        return Attribute::make(
-            get: function (mixed $value, array $attributes) {
-                if ($attributes['email_verified_at']) {
-                    return !isset($attributes['deleted_at']) ? UserStatus::ACTIVE->label() : UserStatus::DEACTIVATE->label();
-                } else {
-                    return UserStatus::PENDING->label();
-                }
-            },
         );
     }
 

@@ -24,7 +24,6 @@ describe('index', function () {
                         'id',
                         'email',
                         'role',
-                        'status',
                         'profile' => [
                             'id',
                             'user_id',
