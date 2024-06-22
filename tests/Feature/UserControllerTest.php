@@ -157,8 +157,10 @@ describe('destroy', function () {
             ->deleteJson('api/admin/users/' . $user->id)
             ->assertNoContent();
 
-        $this->assertDatabaseMissing(User::class, [
+        $this->assertDatabaseHas(User::class, [
             'id' => $user->id,
+            'email' => $user->email,
+            'deleted_at' => now(),
         ]);
     });
 });
