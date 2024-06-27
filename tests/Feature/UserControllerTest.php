@@ -143,6 +143,18 @@ describe('show', function () {
     });
 });
 
+describe('update', function () {
+    test('can update user', function () {
+        $user = createUser();
+
+        asAdmin()
+            ->putJson("api/admin/users/$user->id", [
+                'email' => 'example@mail.test',
+            ])
+            ->assertOk();
+    });
+});
+
 describe('destroy', function () {
     test('cannot delete auth user', function () {
         asAdmin()

@@ -39,11 +39,11 @@ class AddressController extends Controller
     /**
      * Store a newly created address in storage.
      */
-    public function store(StoreAddressRequest $request): Response
+    public function store(StoreAddressRequest $request): JsonResource
     {
-        auth()->user()->addresses()->create($request->validated());
+        $address = auth()->user()->addresses()->create($request->validated());
 
-        return response()->noContent(Response::HTTP_CREATED);
+        return AddressResource::make($address);
     }
 
     /**

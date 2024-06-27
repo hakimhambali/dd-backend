@@ -35,7 +35,7 @@ class UserController extends Controller implements HasMiddleware
         return UserResource::collection($this->paginateOrGet($user));
     }
 
-    public function store(StoreUserRequest $request): Response
+    public function store(StoreUserRequest $request): JsonResource
     {
         $input = $request->validated();
         $input['password'] = bcrypt(User::DEFAULT_PASSWORD);
@@ -50,7 +50,7 @@ class UserController extends Controller implements HasMiddleware
 
         $user->notify(new WelcomeUser());
 
-        return response()->noContent(Response::HTTP_CREATED);
+        return UserResource::make($user);
     }
 
     public function show(User $user): JsonResource
@@ -58,9 +58,11 @@ class UserController extends Controller implements HasMiddleware
         return UserResource::make($user);
     }
 
-    public function update(Request $request, User $user): Response
+    public function update(Request $request, User $user): JsonResource
     {
-        return response()->noContent();
+        $user->update($request->all());
+
+        return UserResource::make($user);
     }
 
     public function destroy(User $user): Response
