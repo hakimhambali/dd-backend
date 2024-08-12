@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Gender;
+use App\Models\Religion;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,6 +28,7 @@ class UpdateProfileRequest extends FormRequest
             'full_name' => ['required', 'string'],
             'birth_date' => ['nullable', 'date'],
             'gender_id' => ['nullable', Rule::in(array_keys(Gender::NAMES))],
+            'religion_id' => ['nullable', 'exists:religions,id'],
             'nric_passport' => ['required', 'string'],
             'phone_number' => ['nullable', 'string'],
         ];
