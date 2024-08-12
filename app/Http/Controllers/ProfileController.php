@@ -14,7 +14,7 @@ class ProfileController extends Controller
         return UserResource::make(auth()->user()->load('profile'));
     }
 
-    public function update(UpdateProfileRequest $request): Response
+    public function update(UpdateProfileRequest $request)
     {
         $user = auth()->user()->load('profile');
 

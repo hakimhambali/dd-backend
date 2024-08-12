@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Gender;
+use App\Models\Gender;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->constrained();
             $table->string('full_name')->nullable();
             $table->date('birth_date')->nullable();
-            $table->enum('gender', Gender::values())->nullable();
             $table->string('nric_passport')->nullable();
+            $table->foreignIdFor(Gender::class)->nullable()->constrained();
             $table->string('phone_number')->nullable();
             $table->timestamps();
         });

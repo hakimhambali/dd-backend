@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\Gender;
 use App\Enums\RolesEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -52,7 +51,6 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $user->profile->update([
                 'full_name' => $this->faker->name,
-                'gender' => $this->faker->randomElement(Gender::values()),
             ]);
 
             $user->assignRole(RolesEnum::USER);

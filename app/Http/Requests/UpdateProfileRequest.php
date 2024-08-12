@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Gender;
+use App\Models\Gender;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +26,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'full_name' => ['required', 'string'],
             'birth_date' => ['nullable', 'date'],
-            'gender' => ['nullable', Rule::enum(Gender::class)],
+            'gender_id' => ['nullable', Rule::in(array_keys(Gender::NAMES))],
             'nric_passport' => ['required', 'string'],
             'phone_number' => ['nullable', 'string'],
         ];

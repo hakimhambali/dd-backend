@@ -20,7 +20,8 @@ class ProfileResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'full_name' => $this->full_name,
             'birth_date' => $this->whenNotNull($this->birth_date?->toDateString()),
-            'gender' => $this->whenNotNull($this->gender),
+            'gender_id' => $this->whenNotNull($this->gender_id),
+            'gender' => GenderResource::make($this->whenLoaded('gender')),
             'nric_passport' => $this->whenNotNull($this->nric_passport),
             'phone_number' => $this->whenNotNull($this->phone_number),
         ];
