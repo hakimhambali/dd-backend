@@ -54,10 +54,6 @@ class User extends Authenticatable
         ];
     }
 
-    protected $with = [
-        'profile',
-    ];
-
     public const DEFAULT_PASSWORD = 'passw0rd*1234';
 
     protected function role(): Attribute
