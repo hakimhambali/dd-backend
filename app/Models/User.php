@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Enums\RolesEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -59,20 +57,20 @@ class User extends Authenticatable
     protected function role(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->getRoleNames()->isNotEmpty() ? RolesEnum::from($this->getRoleNames()[0])->label() : '',
+            get: fn(): string => $this->getRoleNames()->isNotEmpty() ? RolesEnum::from($this->getRoleNames()[0])->label() : '',
         );
     }
 
     public function scopeNotAdmin(Builder $query): void
     {
-        $query->whereHas('roles', fn (Builder $query) => $query->whereNotIn('name', [RolesEnum::ADMIN->value]));
+        $query->whereHas('roles', fn(Builder $query): Builder => $query->whereNotIn('name', [RolesEnum::ADMIN->value]));
     }
 
     public function scopeSearch(Builder $query, Request $request): void
     {
         $query
             ->when($request->query('name'), function (Builder $query, string $name) {
-                $query->whereHas('profile', fn (Builder $query) => $query->where('full_name', 'like', "%$name%"));
+                $query->whereHas('profile', fn(Builder $query): Builder => $query->where('full_name', 'like', "%$name%"));
             })
             ->when($request->query('email'), function (Builder $query, string $email) {
                 $query->where('email', 'like', "%$email%");

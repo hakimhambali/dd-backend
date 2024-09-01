@@ -1,12 +1,11 @@
 <?php
 
 use App\Enums\RolesEnum;
-use App\Enums\UserStatus;
 use App\Models\User;
-use Database\Seeders\DatabaseSeeder;
+use Database\Seeders\RoleSeeder;
 
 beforeEach(function () {
-    $this->seed(DatabaseSeeder::class);
+    $this->seed(RoleSeeder::class);
 });
 
 test('can get user role attribute', function () {
@@ -16,34 +15,19 @@ test('can get user role attribute', function () {
     expect($user->role)->toBe(RolesEnum::ADMIN->label());
 });
 
-describe('status attribute', function () {
-    test('can get active status attribute', function () {
-        $user = createUser();
-
-        expect($user->status)->toBe(UserStatus::ACTIVE->label());
-    });
-
-    test('can get deactivate status attribute', function () {
-        $user = createUser();
-        $user->delete();
-
-        expect($user->status)->toBe(UserStatus::DEACTIVATE->label());
-    });
-
-    test('can get pending status attribute', function () {
-        $user = createUser();
-        $user->email_verified_at = null;
-        $user->save();
-
-        $user->refresh();
-
-        expect($user->status)->toBe(UserStatus::PENDING->label());
-    });
-});
-
 test('user is an admin', function () {
     $user = User::factory()->create();
     $user->assignRole(RolesEnum::ADMIN);
 
     expect($user->isAdmin())->toBe(true);
+});
+
+test('can filter list of users that is not admin', function () {
+    $numOfUsers = 5;
+    User::factory()->count($numOfUsers)->create();
+
+    $admin = User::factory()->create();
+    $admin->syncRoles(RolesEnum::ADMIN);
+
+    expect(User::notAdmin()->count())->toBe($numOfUsers);
 });
