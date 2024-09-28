@@ -3,26 +3,30 @@
 namespace Database\Seeders;
 
 use App\Enums\RolesEnum;
-use App\Enums\UserStatus;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $admin = User::updateOrCreate([
-            'email' => 'admin@mail.test',
+        $superadmin = User::updateOrCreate([
+            'email' => 'superadmin@gmail.com',
         ], [
-            'password' => bcrypt('password'),
+            'password' => bcrypt('passwordsuperadmin'),
         ]);
 
-        $admin->markEmailAsVerified();
+        $superadmin->markEmailAsVerified();
 
-        $admin->assignRole(RolesEnum::ADMIN);
+        $superadmin->assignRole(RolesEnum::SUPERADMIN);
+
+        $superadmin->profile()->updateOrCreate([
+            'user_id' => $superadmin->id,
+        ], [
+            'full_name' => 'Superadmin',
+            'staff_no' => 'A17CS0115',
+            'nric_passport' => '900601058759',
+            'phone_number' => '0118742151',
+        ]);
     }
 }

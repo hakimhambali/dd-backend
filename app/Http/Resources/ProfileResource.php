@@ -19,11 +19,12 @@ class ProfileResource extends JsonResource
             'user_id' => $this->user_id,
             'user' => UserResource::make($this->whenLoaded('user')),
             'full_name' => $this->full_name,
-            'birth_date' => $this->whenNotNull($this->birth_date?->toDateString()),
-            'gender_id' => $this->whenNotNull($this->gender_id),
-            'gender' => GenderResource::make($this->whenLoaded('gender')),
-            'nric_passport' => $this->whenNotNull($this->nric_passport),
-            'phone_number' => $this->whenNotNull($this->phone_number),
+            'staff_no' => $this->staff_no,
+            'nric_passport' => $this->nric_passport,
+            'phone_number' => $this->phone_number,
+            'created_at' => $this->created_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
+            'updated_at' => $this->updated_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
+            'deleted_at' => optional($this->deleted_at)->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
         ];
     }
 }

@@ -10,24 +10,24 @@ beforeEach(function () {
 
 test('can get user role attribute', function () {
     $user = User::factory()->create();
-    $user->syncRoles(RolesEnum::ADMIN);
+    $user->syncRoles(RolesEnum::SUPERADMIN);
 
-    expect($user->role)->toBe(RolesEnum::ADMIN->label());
+    expect($user->role)->toBe(RolesEnum::SUPERADMIN->label());
 });
 
-test('user is an admin', function () {
+test('user is an superadmin', function () {
     $user = User::factory()->create();
-    $user->assignRole(RolesEnum::ADMIN);
+    $user->assignRole(RolesEnum::SUPERADMIN);
 
-    expect($user->isAdmin())->toBe(true);
+    expect($user->isSuperadmin())->toBe(true);
 });
 
-test('can filter list of users that is not admin', function () {
+test('can filter list of users that is not superadmin', function () {
     $numOfUsers = 5;
     User::factory()->count($numOfUsers)->create();
 
-    $admin = User::factory()->create();
-    $admin->syncRoles(RolesEnum::ADMIN);
+    $superadmin = User::factory()->create();
+    $superadmin->syncRoles(RolesEnum::SUPERADMIN);
 
-    expect(User::notAdmin()->count())->toBe($numOfUsers);
+    expect(User::notSuperadmin()->count())->toBe($numOfUsers);
 });

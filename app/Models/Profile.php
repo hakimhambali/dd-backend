@@ -13,27 +13,19 @@ class Profile extends Model
 
     protected $fillable = [
         'full_name',
-        'birth_date',
-        'gender_id',
+        'staff_no',
         'nric_passport',
         'phone_number',
     ];
 
     protected $casts = [
-        'birth_date' => 'date',
     ];
 
     protected $with = [
-        'gender',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function gender(): BelongsTo
-    {
-        return $this->belongsTo(Gender::class);
     }
 }

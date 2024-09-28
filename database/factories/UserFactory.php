@@ -51,9 +51,12 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $user->profile->update([
                 'full_name' => $this->faker->name,
+                'staff_no' => $this->faker->unique()->randomNumber(9), // Custom generation for staff_no
+                'nric_passport' => $this->faker->uuid, // Custom generation for nric_passport
+                'phone_number' => $this->faker->phoneNumber, // Faker has phoneNumber
             ]);
-
-            $user->assignRole(RolesEnum::USER);
+    
+            $user->assignRole(RolesEnum::ADMIN);
         });
     }
 }

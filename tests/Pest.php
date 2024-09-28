@@ -45,19 +45,19 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function createUser(RolesEnum $role = RolesEnum::USER): User
+function createAdmin(RolesEnum $role = RolesEnum::ADMIN): User
 {
     return tap(User::factory()->create(), function (User $user) use ($role) {
         $user->syncRoles($role);
     });
 }
 
-function createAdmin(): User
+function createSuperadmin(): User
 {
-    return createUser(RolesEnum::ADMIN);
+    return createAdmin(RolesEnum::SUPERADMIN);
 }
 
-function asAdmin(): Tests\TestCase
+function asSuperadmin(): Tests\TestCase
 {
-    return test()->actingAs(createAdmin());
+    return test()->actingAs(createSuperadmin());
 }

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class GameUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,16 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'email' => $this->email,
-            'role' => $this->role,
-            'profile' => ProfileResource::make($this->whenLoaded('profile')),
+            'username' => $this->username,
+            'gem_amount' => $this->gem_amount,
+            'gold_amount' => $this->gold_amount,
+            'date_of_birth' => $this->date_of_birth,
+            'country' => $this->country,
+            'platform' => $this->platform,
+            'register_date' => $this->register_date,
+            'total_play_time' => $this->total_play_time,
+            'is_active' => $this->is_active,
+            'highest_score' => $this->highest_score,
             'created_at' => $this->created_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
             'updated_at' => $this->updated_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
             'deleted_at' => optional($this->deleted_at)->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),

@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -52,7 +54,8 @@ class User extends Authenticatable
         ];
     }
 
-    public const DEFAULT_PASSWORD = 'passw0rd*1234';
+    public const DEFAULT_PASSWORD_SUPERADMIN = 'passwordsuperadmin';
+    public const DEFAULT_PASSWORD_ADMIN = 'passwordadmin';
 
     protected function role(): Attribute
     {
@@ -61,17 +64,38 @@ class User extends Authenticatable
         );
     }
 
-    public function scopeNotAdmin(Builder $query): void
+    public function scopeNotSuperadmin(Builder $query): void
     {
-        $query->whereHas('roles', fn(Builder $query): Builder => $query->whereNotIn('name', [RolesEnum::ADMIN->value]));
+        $query->whereHas('roles', fn(Builder $query): Builder => $query->whereNotIn('name', [RolesEnum::SUPERADMIN->value]));
     }
 
     public function scopeSearch(Builder $query, Request $request): void
     {
+        Log::info('Search Method Invoked with Request User:', $request->query());
         $query
+
             ->when($request->query('name'), function (Builder $query, string $name) {
                 $query->whereHas('profile', fn(Builder $query): Builder => $query->where('full_name', 'like', "%$name%"));
             })
+            ->when($request->query('staff_no'), function (Builder $query, string $staff_no) {
+                $query->whereHas('profile', fn(Builder $query): Builder => $query->where('staff_no', 'like', "%$staff_no%"));
+            })
+            ->when($request->query('nric_passport'), function (Builder $query, string $nric_passport) {
+                $query->whereHas('profile', fn(Builder $query): Builder => $query->where('nric_passport', 'like', "%$nric_passport%"));
+            })
+            ->when($request->query('phone_number'), function (Builder $query, string $phone_number) {
+                $query->whereHas('profile', fn(Builder $query): Builder => $query->where('phone_number', 'like', "%$phone_number%"));
+            })
+
+            ->when($request->query('role'), function (Builder $query, string $role) {
+                $roleEnum = RolesEnum::tryFrom(strtolower($role));
+                if ($roleEnum) {
+                    $query->whereHas('roles', function (Builder $q) use ($roleEnum) {
+                        $q->where('name', $roleEnum->value);
+                    });
+                }
+            })
+
             ->when($request->query('email'), function (Builder $query, string $email) {
                 $query->where('email', 'like', "%$email%");
             });
@@ -82,13 +106,8 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function addresses(): MorphMany
+    public function isSuperadmin(): bool
     {
-        return $this->morphMany(Address::class, 'addressable');
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->hasRole(RolesEnum::ADMIN);
+        return $this->hasRole(RolesEnum::SUPERADMIN);
     }
 }

@@ -12,10 +12,10 @@ beforeEach(function () {
 
 describe('index', function () {
     test('can list all users', function () {
-        $numOfUsers = 5;
+        $numOfUsers = 3;
         User::factory()->count($numOfUsers)->create();
 
-        asAdmin()
+        asSuperadmin()
             ->getJson('api/admin/users')
             ->assertOk()
             ->assertJsonStructure([
@@ -28,7 +28,6 @@ describe('index', function () {
                             'id',
                             'user_id',
                             'full_name',
-                            'gender',
                         ],
                         'created_at',
                         'updated_at',
@@ -57,7 +56,7 @@ describe('index', function () {
             'name' => $user->profile->full_name,
         ]);
 
-        asAdmin()
+        asSuperadmin()
             ->getJson('api/admin/users?' . $query)
             ->assertOk()
             ->assertJsonCount(1, 'data')
@@ -77,7 +76,7 @@ describe('index', function () {
             'email' => $user->email,
         ]);
 
-        asAdmin()
+        asSuperadmin()
             ->getJson('api/admin/users?' . $query)
             ->assertOk()
             ->assertJsonCount(1, 'data')
@@ -97,7 +96,7 @@ describe('store', function () {
             'name' => 'Leah Simon',
         ];
 
-        asAdmin()
+        asSuperadmin()
             ->postJson('api/admin/users', $payload)
             ->assertCreated();
 
@@ -118,7 +117,7 @@ describe('show', function () {
     test('admin can view a user', function () {
         $user = User::factory()->create();
 
-        asAdmin()
+        asSuperadmin()
             ->getJson('api/admin/users/' . $user->id)
             ->assertOk()
             ->assertJsonStructure([
@@ -137,7 +136,7 @@ describe('show', function () {
     });
 
     test('admin cannot view invalid user', function () {
-        asAdmin()
+        asSuperadmin()
             ->getJson('api/admin/users/invalid-id')
             ->assertNotFound();
     });
@@ -145,9 +144,9 @@ describe('show', function () {
 
 describe('update', function () {
     test('can update user', function () {
-        $user = createUser();
+        $user = createAdmin();
 
-        asAdmin()
+        asSuperadmin()
             ->putJson("api/admin/users/$user->id", [
                 'email' => 'example@mail.test',
             ])
@@ -157,7 +156,7 @@ describe('update', function () {
 
 describe('destroy', function () {
     test('cannot delete auth user', function () {
-        asAdmin()
+        asSuperadmin()
             ->deleteJson('api/admin/users/1')
             ->assertForbidden();
     });
@@ -165,7 +164,7 @@ describe('destroy', function () {
     test('can delete user', function () {
         $user = User::factory()->create();
 
-        asAdmin()
+        asSuperadmin()
             ->deleteJson('api/admin/users/' . $user->id)
             ->assertNoContent();
 

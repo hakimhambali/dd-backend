@@ -17,7 +17,7 @@ class IsUserAllowToBeDeleted
     {
         $user = $request->route('user');
 
-        $userCannotBeDeleted = $user->isAdmin() || ($user->id === $request->user()->id);
+        $userCannotBeDeleted = $user->isSuperadmin() || ($user->id === $request->user()->id);
 
         abort_if($userCannotBeDeleted, Response::HTTP_FORBIDDEN, 'User cannot be deleted.');
 
