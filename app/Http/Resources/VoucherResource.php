@@ -23,15 +23,15 @@ class VoucherResource extends JsonResource
             'is_percentage_flatprice' => $this->is_percentage_flatprice,
             'discount_value' => $this->discount_value,
             'expired_time' => $this->expired_time,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_date' => $this->start_date ? $this->start_date->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s') : null,
+            'end_date' => $this->end_date ? $this->end_date->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s') : null,
             'is_active' => $this->is_active,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
             'deleted_by' => $this->deleted_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at' => optional($this->deleted_at),
+            'created_at' => $this->created_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
+            'deleted_at' => $this->deleted_at ? $this->deleted_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s') : null,
         ];
     }
 }

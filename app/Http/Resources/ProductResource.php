@@ -25,9 +25,9 @@ class ProductResource extends JsonResource
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
             'deleted_by' => $this->deleted_by,
-            'created_at' => $this->created_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
-            'updated_at' => $this->updated_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
-            'deleted_at' => optional($this->deleted_at)->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
+            'created_at' => $this->created_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
+            'deleted_at' => $this->deleted_at ? $this->deleted_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s') : null,
         ];
     }
 }

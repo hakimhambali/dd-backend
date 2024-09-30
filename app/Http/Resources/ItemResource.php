@@ -18,9 +18,6 @@ class ItemResource extends JsonResource
             'id' => $this->id,
             'product' => ProductResource::make($this->whenLoaded('product')),
             'item_type' => $this->item_type,
-            'created_at' => $this->created_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
-            'updated_at' => $this->updated_at->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
-            'deleted_at' => optional($this->deleted_at)->setTimeZone('Asia/Kuala_Lumpur')->toDateTimeString(),
         ];
     }
 }

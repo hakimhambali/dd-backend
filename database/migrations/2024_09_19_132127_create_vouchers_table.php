@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
             $table->decimal('min_price', 8, 2)->nullable(); 
             $table->boolean('is_percentage_flatprice');
             $table->decimal('discount_value', 8, 2);

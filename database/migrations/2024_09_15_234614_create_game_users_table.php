@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('username');
+            $table->string('username')->unique();
             $table->integer('gem_amount')->default(0);
             $table->integer('gold_amount')->default(0);
             $table->date('date_of_birth')->nullable();

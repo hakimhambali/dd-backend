@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->nullable();
-            $table->string('name');
+            $table->string('code')->nullable()->unique();
+            $table->string('name')->unique();
             $table->integer('price');
             $table->string('product_type');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
