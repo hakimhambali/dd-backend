@@ -12,7 +12,7 @@ class UpdateVoucherRequest extends FormRequest
             'name' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'min_price' => ['nullable', 'numeric'],
-            'max_claim' => ['nullable', 'numeric'],
+            'max_claim' => ['nullable', 'integer'],
             'is_percentage_flatprice' => ['required', 'boolean'],
             'discount_value' => ['nullable', 'numeric'],
             'expired_time' => ['nullable', 'integer'],

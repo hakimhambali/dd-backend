@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('terrains', function (Blueprint $table) {
+        Schema::create('missions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->text('description')->nullable();
-            $table->boolean('is_default')->default(false);
+            $table->decimal('max_score', 8, 2);
+            $table->string('reward_type');
+            $table->decimal('reward_value', 8, 2);
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('terrains');
+        Schema::dropIfExists('missions');
     }
 };
