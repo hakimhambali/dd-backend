@@ -7,6 +7,7 @@ use App\Http\Controllers\SkinController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\TerrainController;
 use App\Http\Controllers\MissionController;
+use App\Http\Controllers\AchievementController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('get-csrf-cookie', [AuthController::class, 'index']);
@@ -22,4 +23,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('vouchers', VoucherController::class);
     Route::apiResource('terrains', TerrainController::class);
     Route::apiResource('missions', MissionController::class);
+    Route::apiResource('achievements', AchievementController::class);
 });
