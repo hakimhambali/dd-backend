@@ -38,6 +38,7 @@ class ItemController extends Controller
         $productData = [
             'name' => $input['name'],
             'price' => $input['price'],
+            'is_active' => $input['is_active'],
             'product_type' => 'Item',
             'description' => $input['description'] ?? null,
             'created_by' => auth()->id(),

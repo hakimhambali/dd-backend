@@ -42,8 +42,11 @@ class Mission extends Model
             ->when($request->query('description'), function (Builder $query, string $description) {
                 $query->where('description', 'like', "%$description%");
             })
-            ->when($request->query('reward_value'), function (Builder $query, string $reward_value) {
-                $query->where('reward_value', 'like', "%$reward_value%");
+            ->when($request->query('reward_type'), function (Builder $query, string $reward_type) {
+                $query->where('reward_type', 'like', "%$reward_type%");
+            })
+            ->when($request->query('is_active'), function (Builder $query, $is_active) {
+                $query->where('is_active', filter_var($is_active, FILTER_VALIDATE_BOOLEAN));
             });
     }
 }
