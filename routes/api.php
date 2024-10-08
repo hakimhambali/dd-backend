@@ -8,6 +8,8 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\TerrainController;
 use App\Http\Controllers\MissionController;
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\CurrencyHistoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('get-csrf-cookie', [AuthController::class, 'index']);
@@ -24,4 +26,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('terrains', TerrainController::class);
     Route::apiResource('missions', MissionController::class);
     Route::apiResource('achievements', AchievementController::class);
+    Route::apiResource('leaderboards', LeaderboardController::class);
+    Route::apiResource('currencyHistories', CurrencyHistoryController::class);
 });

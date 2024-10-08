@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_voucher', function (Blueprint $table) {
+        Schema::create('leaderboards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->foreignId('voucher_id')->constrained()->onDelete('cascade');
-            $table->boolean('is_exclude')->default(false);
+            $table->foreignId('game_user_id')->constrained('game_users')->onDelete('cascade');
+            $table->decimal('score', 8, 2)->default(0);
             $table->timestamps();
-
-            $table->unique(['product_id', 'voucher_id']);
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_voucher');
+        Schema::dropIfExists('leaderboards');
     }
 };

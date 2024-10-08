@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('country');
             $table->string('platform');
             $table->timestamp('register_date');
-            $table->integer('total_play_time')->default(0);
+            $table->decimal('total_play_time', 8, 2)->default(0); 
             $table->boolean('is_active')->default(true);
-            $table->integer('highest_score')->default(0);
+            $table->decimal('highest_score', 8, 2)->default(0); 
             $table->timestamps();
             $table->softDeletes();
         });

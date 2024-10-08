@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Traits\PaginateTrait;
+use Illuminate\Support\Facades\Log;
+
+use App\Models\CurrencyHistory;
+use App\Http\Resources\CurrencyHistoryResource;
+
+class CurrencyHistoryController extends Controller
+{
+    use PaginateTrait;
+
+    public function index(): AnonymousResourceCollection
+    {
+        $currencyHistories = CurrencyHistory::with('game_user');
+        $currencyHistories = $currencyHistories->search(request());
+        return CurrencyHistoryResource::collection($this->paginateOrGet($currencyHistories));
+    }
+}

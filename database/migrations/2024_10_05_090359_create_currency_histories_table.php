@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_voucher', function (Blueprint $table) {
+        Schema::create('currency_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->foreignId('voucher_id')->constrained()->onDelete('cascade');
-            $table->boolean('is_exclude')->default(false);
+            $table->foreignId('game_user_id')->constrained('game_users')->onDelete('cascade');
+            $table->integer('amount');
+            $table->string('currency_type');
+            $table->text('description')->nullable();
             $table->timestamps();
-
-            $table->unique(['product_id', 'voucher_id']);
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_voucher');
+        Schema::dropIfExists('currency_histories');
     }
 };
