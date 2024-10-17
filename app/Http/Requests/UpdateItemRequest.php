@@ -10,7 +10,7 @@ class UpdateItemRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string'],
-            'price' => ['nullable', 'integer'],
+            'price' => ['nullable', 'numeric'],
             'item_type' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],

@@ -57,28 +57,36 @@ class ItemController extends Controller
         return new ItemResource($item->load('product'));
     }
 
-    // public function update(UpdateItemRequest $request, Product $product): JsonResource
-    // {
-    //     // $item = Item::findOrFail($id);
+    public function update(UpdateItemRequest $request, $id): JsonResource
+    {
+        $item = Item::findOrFail($id);
+        $input = $request->validated();
 
-    //     // if ($request->has(['name', 'price', 'description'])) {
-    //     //     $item->product->update($request->only(['name', 'price', 'description']));
-    //     // }
-
-    //     // if ($request->has(['item_type'])) {
-    //     //     $item->product->update($request->only(['item_type']));
-    //     // }
-
-    //     // return new ItemResource($item->load('product'));
-
-    //     $product->update($request->all());
-    //     return ProductResource::make($product);
-    // }
+        $product = $item->product;
+        $product->update([
+            'name' => $input['name'],
+            'price' => $input['price'],
+            'is_active' => $input['is_active'],
+            'description' => $input['description'],
+            'updated_by' => auth()->id(),
+        ]);
+    
+        $item->update([
+            'item_type' => $input['item_type'],
+        ]);
+    
+        return new ItemResource($item->load('product'));
+    }
 
     public function destroy(Item $item): Response
     {
         $product = $item->product;
+    
+        $product->update([
+            'deleted_by' => auth()->id(),
+        ]);
         $product->delete();
+    
         return response()->noContent();
     }
 }

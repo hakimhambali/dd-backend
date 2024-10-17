@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('game_user_id')->constrained('game_users');
             $table->decimal('buy_price', 8, 2)->default(0);
             $table->dateTime('transaction_date');
+            $table->foreignId('voucher_used_id')->nullable()->constrained('vouchers');
             $table->foreignId('voucher_earned_id')->constrained('vouchers');
             $table->string('platform');
             $table->timestamps();

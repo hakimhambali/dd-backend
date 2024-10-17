@@ -13,21 +13,21 @@ class CurrencyHistorySeeder extends Seeder
             'game_user_id' => 1,
             'amount' => 100,
             'currency_type' => 'Gold',
-            'description' => 'Earn as finish mission collect gold coins 100',
+            'description' => 'Earn from completing mission',
         ]);
 
         $currencyhistory2 = CurrencyHistory::updateOrCreate([
             'game_user_id' => 1,
             'amount' => 50,
             'currency_type' => 'Gem',
-            'description' => 'Earn from completing side quests',
+            'description' => 'Earn from completing achievement',
         ]);
 
         $currencyhistory3 = CurrencyHistory::updateOrCreate([
             'game_user_id' => 2,
             'amount' => 200,
             'currency_type' => 'Gold',
-            'description' => 'Bonus for leveling up',
+            'description' => 'Earn from winning tournament',
         ]);
     }
 }

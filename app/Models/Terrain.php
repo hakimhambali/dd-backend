@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Terrain extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'name',

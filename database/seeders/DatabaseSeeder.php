@@ -13,7 +13,13 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             GameUserSeeder::class,
             CurrencyHistorySeeder::class,
-            TransactionHistorySeeder::class
+            ProductSeeder::class,
+            VoucherSeeder::class,
+            TransactionHistorySeeder::class,
+            MissionSeeder::class,
+            AchievementSeeder::class,
+            TerrainSeeder::class,
+            AchievementGameUserSeeder::class
         ]);
     }
 }

@@ -31,9 +31,21 @@ class TerrainController extends Controller
         return new TerrainResource($terrain);
     }
 
+    public function update(UpdateTerrainRequest $request, $id): JsonResource
+    {
+        $terrain = Terrain::findOrFail($id);
+        $data = array_merge($request->validated(), ['updated_by' => auth()->id()]);
+        $terrain->update($data);
+        return TerrainResource::make($terrain);
+    }
+
     public function destroy(Terrain $terrain): Response
     {
+        $terrain->update([
+            'deleted_by' => auth()->id(),
+        ]);
         $terrain->delete();
+    
         return response()->noContent();
     }
 }

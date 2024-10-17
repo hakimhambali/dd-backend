@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Traits\PaginateTrait;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Mission;
 use App\Http\Requests\StoreMissionRequest;
@@ -19,7 +20,6 @@ class MissionController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        Log::info("MissionControllerindex");
         $missions = Mission::search(request());
         return MissionResource::collection($this->paginateOrGet($missions));
     }
@@ -31,9 +31,30 @@ class MissionController extends Controller
         return new MissionResource($mission);
     }
 
+    public function update(UpdateMissionRequest $request, $id): JsonResource
+    {
+        $mission = Mission::findOrFail($id);
+        $previousIsActive = $mission->is_active;
+        $data = array_merge($request->validated(), ['updated_by' => auth()->id()]);
+        $mission->update($data);
+        
+        if ($previousIsActive && !$mission->is_active) {
+            DB::table('mission_game_user')
+                ->where('mission_id', $mission->id)
+                ->delete();
+        }
+    
+        return new MissionResource($mission);
+    }
+
     public function destroy(Mission $mission): Response
     {
+        $mission->update([
+            'deleted_by' => auth()->id(),
+        ]);
+    
         $mission->delete();
+    
         return response()->noContent();
     }
 }

@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Voucher extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'name',
@@ -57,14 +61,5 @@ class Voucher extends Model
             ->when($request->query('is_percentage_flatprice'), function (Builder $query, $is_percentage_flatprice) {
                 $query->where('is_percentage_flatprice', filter_var($is_percentage_flatprice, FILTER_VALIDATE_BOOLEAN));
             });
-            // ->when($request->query('min_price'), function (Builder $query, float $min_price) {
-            //     $query->where('min_price', '>=', $min_price);
-            // })
-            // ->when($request->query('start_date'), function (Builder $query, string $start_date) {
-            //     $query->whereDate('start_date', '>=', $start_date);
-            // })
-            // ->when($request->query('end_date'), function (Builder $query, string $end_date) {
-            //     $query->whereDate('end_date', '<=', $end_date);
-            // });
     }
 }

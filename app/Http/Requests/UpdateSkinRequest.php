@@ -10,7 +10,7 @@ class UpdateSkinRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string'],
-            'price' => ['nullable', 'integer'],
+            'price' => ['nullable', 'numeric'],
             'skin_type' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],

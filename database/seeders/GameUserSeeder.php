@@ -15,9 +15,10 @@ class GameUserSeeder extends Seeder
             'username' => 'Ice_John',
             'date_of_birth' => '1998-07-26',
             'country' => 'Malaysia',
-            'platform' => 'Ios',
+            'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '120.72',
+            'highest_score' => '1124.89'
         ]);
 
         $gameuser2 = GameUser::updateOrCreate([
@@ -28,7 +29,8 @@ class GameUserSeeder extends Seeder
             'country' => 'Indonesia',
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '120.72',
+            'highest_score' => '1024.89'
         ]);
 
         $gameuser3 = GameUser::updateOrCreate([
@@ -37,9 +39,10 @@ class GameUserSeeder extends Seeder
             'username' => 'Jack_Sparrow',
             'date_of_birth' => '1998-07-28',
             'country' => 'Hungary',
-            'platform' => 'Ios',
+            'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '52.72',
+            'highest_score' => '1080.89'
         ]);
 
         $gameuser4 = GameUser::updateOrCreate([
@@ -50,7 +53,8 @@ class GameUserSeeder extends Seeder
             'country' => 'Sweeden',
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '22.72',
+            'highest_score' => '3002.89'
         ]);
 
         $gameuser5 = GameUser::updateOrCreate([
@@ -61,7 +65,8 @@ class GameUserSeeder extends Seeder
             'country' => 'Denmark',
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '918.72',
+            'highest_score' => '6002.89'
         ]);
 
         $gameuser6 = GameUser::updateOrCreate([
@@ -70,9 +75,10 @@ class GameUserSeeder extends Seeder
             'username' => 'Misteri',
             'date_of_birth' => '1998-07-02',
             'country' => 'Thailand',
-            'platform' => 'Ios',
+            'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '1918.72',
+            'highest_score' => '9002.72'
         ]);
 
         $gameuser7 = GameUser::updateOrCreate([
@@ -81,9 +87,10 @@ class GameUserSeeder extends Seeder
             'username' => 'Lucrinex',
             'date_of_birth' => '1998-07-26',
             'country' => 'Finland',
-            'platform' => 'Ios',
+            'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '18.72',
+            'highest_score' => '2.72'
         ]);
 
         $gameuser8 = GameUser::updateOrCreate([
@@ -94,7 +101,8 @@ class GameUserSeeder extends Seeder
             'country' => 'Iran',
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '58.72',
+            'highest_score' => '20.72'
         ]);
 
         $gameuser9 = GameUser::updateOrCreate([
@@ -105,7 +113,8 @@ class GameUserSeeder extends Seeder
             'country' => 'Lubnan',
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '51.72',
+            'highest_score' => '19.72'
         ]);
 
         $gameuser10 = GameUser::updateOrCreate([
@@ -116,7 +125,8 @@ class GameUserSeeder extends Seeder
             'country' => 'Syria',
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '38.72',
+            'highest_score' => '1991.72'
         ]);
 
         $gameuser11 = GameUser::updateOrCreate([
@@ -125,9 +135,10 @@ class GameUserSeeder extends Seeder
             'username' => 'Arif_Aiman',
             'date_of_birth' => '1998-07-26',
             'country' => 'Palestin',
-            'platform' => 'Ios',
+            'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '3896.72',
+            'highest_score' => '1810.72'
         ]);
 
         $gameuser11 = GameUser::updateOrCreate([
@@ -136,9 +147,10 @@ class GameUserSeeder extends Seeder
             'username' => 'Lionel_Messi',
             'date_of_birth' => '1998-07-26',
             'country' => 'Egypt',
-            'platform' => 'Ios',
+            'platform' => 'Huawei',
             'register_date' => '2024-09-14 09:27:40',
-            'total_play_time' => '0',
+            'total_play_time' => '1236.72',
+            'highest_score' => '1230.72'
         ]);
     }
 }

@@ -6,6 +6,7 @@ use App\Enums\RolesEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\IsUserAllowToBeDeleted;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateuserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Notifications\WelcomeUser;
@@ -32,7 +33,6 @@ class UserController extends Controller implements HasMiddleware
     public function index(): AnonymousResourceCollection
     {
         $user = User::with('profile')->search(request()); 
-        // Log::info($user->toSql(), $user->getBindings());
         return UserResource::collection($this->paginateOrGet($user));
     }
 
@@ -55,7 +55,7 @@ class UserController extends Controller implements HasMiddleware
         $user = User::create($input);
     
         $user->profile->update([
-            'full_name' => $input['name'],
+            'full_name' => $input['full_name'],
             'staff_no' => $input['staff_no'],
             'nric_passport' => $input['nric_passport'],
             'phone_number' => $input['phone_number'],
@@ -72,16 +72,28 @@ class UserController extends Controller implements HasMiddleware
         return UserResource::make($user);
     }
 
-    // public function show(User $user): JsonResource
-    // {
-    //     return UserResource::make($user);
-    // }
-
-    public function update(Request $request, User $user): JsonResource
+    public function update(UpdateuserRequest $request, $id): JsonResource
     {
-        $user->update($request->all());
+        $user = user::findOrFail($id);
+        $input = $request->validated();
 
-        return UserResource::make($user);
+        $profile = $user->profile;
+        $profile->update([
+            'full_name' => $input['full_name'],
+            'staff_no' => $input['staff_no'],
+            'nric_passport' => $input['nric_passport'],
+            'phone_number' => $input['phone_number'],
+        ]);
+    
+        $user->update([
+            'email' => $input['email'],
+        ]);
+    
+        if ($user->role !== $input['role']) {
+            $user->syncRoles([$input['role']]);
+        }
+    
+        return new userResource($user->load('profile'));
     }
 
     public function destroy(User $user): Response

@@ -69,7 +69,11 @@ class GameUserController extends Controller
 
     public function destroy(GameUser $gameUser): Response
     {
+        $gameUser->update([
+            'deleted_by' => auth()->id(),
+        ]);
         $gameUser->delete();
+    
         return response()->noContent();
     }
 }

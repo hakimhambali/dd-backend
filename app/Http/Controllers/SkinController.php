@@ -57,28 +57,36 @@ class SkinController extends Controller
         return new SkinResource($skin->load('product'));
     }
 
-    // public function update(UpdateSkinRequest $request, Product $product): JsonResource
-    // {
-    //     // $skin = Skin::findOrFail($id);
+    public function update(UpdateSkinRequest $request, $id): JsonResource
+    {
+        $skin = Skin::findOrFail($id);
+        $input = $request->validated();
 
-    //     // if ($request->has(['name', 'price', 'description'])) {
-    //     //     $skin->product->update($request->only(['name', 'price', 'description']));
-    //     // }
-
-    //     // if ($request->has(['skin_type'])) {
-    //     //     $skin->product->update($request->only(['skin_type']));
-    //     // }
-
-    //     // return new SkinResource($skin->load('product'));
-
-    //     $product->update($request->all());
-    //     return ProductResource::make($product);
-    // }
+        $product = $skin->product;
+        $product->update([
+            'name' => $input['name'],
+            'price' => $input['price'],
+            'is_active' => $input['is_active'],
+            'description' => $input['description'],
+            'updated_by' => auth()->id(),
+        ]);
+    
+        $skin->update([
+            'skin_type' => $input['skin_type'],
+        ]);
+    
+        return new SkinResource($skin->load('product'));
+    }
 
     public function destroy(Skin $skin): Response
     {
         $product = $skin->product;
+    
+        $product->update([
+            'deleted_by' => auth()->id(),
+        ]);
         $product->delete();
+    
         return response()->noContent();
     }
 }

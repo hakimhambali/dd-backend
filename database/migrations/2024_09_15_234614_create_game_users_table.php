@@ -25,8 +25,11 @@ return new class extends Migration
             $table->decimal('total_play_time', 8, 2)->default(0); 
             $table->boolean('is_active')->default(true);
             $table->decimal('highest_score', 8, 2)->default(0); 
+            $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('deleted_by')->references('id')->on('users');
         });
     }
 

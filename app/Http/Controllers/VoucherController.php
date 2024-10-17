@@ -30,9 +30,31 @@ class VoucherController extends Controller
         return new VoucherResource($voucher);
     }
 
+    public function update(UpdateVoucherRequest $request, $id): JsonResource
+    {
+        // $voucher = Voucher::findOrFail($id);
+        // $input = $request->validated();
+        // $voucher->update($input);
+        // if (isset($input['products'])) {
+        //     $productIds = $input['products'];
+        //     $voucher->products()->sync($productIds);
+        // }
+        // return new VoucherResource($voucher->load('products'));
+
+        $voucher = Voucher::findOrFail($id);
+        $data = array_merge($request->validated(), ['updated_by' => auth()->id()]);
+        $voucher->update($data);
+        return VoucherResource::make($voucher);
+    }
+    
     public function destroy(Voucher $voucher): Response
     {
+        $voucher->update([
+            'deleted_by' => auth()->id(),
+        ]);
+    
         $voucher->delete();
+    
         return response()->noContent();
     }
 }
