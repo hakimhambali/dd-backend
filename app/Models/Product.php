@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -17,7 +20,9 @@ class Product extends Model
     protected $fillable = [
         'code',
         'name',
-        'price',
+        'price_real',
+        'price_game',
+        'price_game_type',
         'product_type',
         'description',
         'created_by',
@@ -28,14 +33,40 @@ class Product extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'price' => 'decimal:2',
+        'price_real' => 'decimal:2',
+        'price_game' => 'integer',
     ];
 
     protected $with = [
     ];
 
-    public function item(): HasOne
+    public function scopeSearch(Builder $query, Request $request): void
     {
-        return $this->hasOne(Item::class);
+        $query
+            ->when($request->query('code'), function (Builder $query, string $code) {
+                $query->where('code', 'like', "%$code%");
+            })
+            ->when($request->query('name'), function (Builder $query, string $name) {
+                $query->where('name', 'like', "%$name%");
+            })
+            ->when($request->query('product_type'), function (Builder $query, string $product_type) {
+                $query->where('product_type', 'like', "%$product_type%");
+            })
+            ->when($request->query('description'), function (Builder $query, string $description) {
+                $query->where('description', 'like', "%$description%");
+            })
+            ->when($request->query('is_active'), function (Builder $query, $is_active) {
+                $query->where('is_active', filter_var($is_active, FILTER_VALIDATE_BOOLEAN));
+            });
+    }
+
+    public function items(): BelongsToMany
+    {
+        return $this->belongsToMany(Item::class, 'item_product')->withPivot('count');
+    }
+
+    public function skin(): HasOne
+    {
+        return $this->hasOne(Skin::class);
     }
 }

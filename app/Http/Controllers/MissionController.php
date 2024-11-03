@@ -20,7 +20,7 @@ class MissionController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $missions = Mission::search(request());
+        $missions = Mission::with('productRewarded')->search(request());
         return MissionResource::collection($this->paginateOrGet($missions));
     }
 
@@ -28,7 +28,7 @@ class MissionController extends Controller
     {
         $data = array_merge($request->validated(), ['created_by' => auth()->id()]);
         $mission = Mission::create($data);
-        return new MissionResource($mission);
+        return new MissionResource($mission->load('productRewarded'));
     }
 
     public function update(UpdateMissionRequest $request, $id): JsonResource
@@ -44,7 +44,7 @@ class MissionController extends Controller
                 ->delete();
         }
     
-        return new MissionResource($mission);
+        return new MissionResource($mission->load('productRewarded'));
     }
 
     public function destroy(Mission $mission): Response

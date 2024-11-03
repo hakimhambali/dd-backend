@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('currency_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('game_user_id')->constrained('game_users')->onDelete('cascade');
-            $table->integer('amount');
             $table->string('currency_type');
+            $table->integer('amount');
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

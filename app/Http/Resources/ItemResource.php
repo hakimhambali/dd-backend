@@ -16,8 +16,8 @@ class ItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product' => ProductResource::make($this->whenLoaded('product')),
             'item_type' => $this->item_type,
+            'count' => $this->pivot->count ?? 0,
         ];
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('achievement_game_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('achievement_id')->constrained()->onDelete('cascade');
+            $table->foreignId('achievement_id')->constrained('achievements')->onDelete('cascade');
             $table->foreignId('game_user_id')->constrained('game_users')->onDelete('cascade');
             $table->boolean('is_completed')->default(false);
             $table->decimal('score', 8, 2)->default(0);

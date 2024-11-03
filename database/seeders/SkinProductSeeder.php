@@ -7,15 +7,17 @@ use App\Models\Product;
 use App\Models\Skin;
 use App\Models\Item;
 
-class ProductSeeder extends Seeder
+class SkinProductSeeder extends Seeder
 {
     public function run(): void
     {
         $product1 = Product::updateOrCreate([
-            'code' => 'SK_1',
+            'code' => 'SO_2',
         ], [
             'name' => 'Summer Skin',
-            'price' => 19.99,
+            'price_real' => 19.99,
+            'price_game' => 1999,
+            'price_game_type' => 'Gold',
             'product_type' => 'Skin',
             'description' => 'Fresh look summer skin',
             'is_active' => 1,
@@ -25,14 +27,14 @@ class ProductSeeder extends Seeder
         $skin1 = Skin::updateOrCreate([
             'product_id' => $product1->id,
         ], [
-            'skin_type' => 'Shirt',
+            'skin_type' => 'Outfit',
         ]);
 
         $product2 = Product::updateOrCreate([
-            'code' => 'SK_2',
+            'code' => 'SO_3',
         ], [
             'name' => 'Sunset Skin',
-            'price' => 29.99,
+            'price_real' => 29.99,
             'product_type' => 'Skin',
             'description' => 'Suitable for kids',
             'is_active' => 1,
@@ -46,20 +48,22 @@ class ProductSeeder extends Seeder
         ]);
 
         $product3 = Product::updateOrCreate([
-            'code' => 'IT_3',
+            'code' => 'SS_4',
         ], [
             'name' => 'Ducati',
-            'price' => 30.99,
-            'product_type' => 'Item',
+            'price_real' => 30.99,
+            'price_game' => 99,
+            'price_game_type' => 'Gem',
+            'product_type' => 'Skin',
             'description' => 'Used by cool boomers',
             'is_active' => 1,
             'created_by' => 1,
         ]);
 
-        $item3 = Item::updateOrCreate([
+        $skin3 = Skin::updateOrCreate([
             'product_id' => $product3->id,
         ], [
-            'item_type' => 'Vehicle',
+            'skin_type' => 'Skateboard',
         ]);
     }
 }

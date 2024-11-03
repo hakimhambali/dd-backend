@@ -21,71 +21,32 @@ class ItemController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $items = Item::with('product');
-        $items = $items->search(request());
+        $items = Item::search(request());
         return ItemResource::collection($this->paginateOrGet($items));
     }
 
-    // public function show(Item $item): JsonResource
-    // {
-    //     return new ItemResource($item);
-    // }
-
     public function store(StoreItemRequest $request): JsonResource
     {
-        $input = $request->validated();
-
-        $productData = [
-            'name' => $input['name'],
-            'price' => $input['price'],
-            'is_active' => $input['is_active'],
-            'product_type' => 'Item',
-            'description' => $input['description'] ?? null,
-            'created_by' => auth()->id(),
-        ];
-        $product = Product::create($productData);
-        $product->update([
-            'code' => 'IT_' . $product->id,
-        ]);
-
-        $itemData = [
-            'product_id' => $product->id,
-            'item_type' => $input['item_type'],
-        ];
-        $item = Item::create($itemData);
-
-        return new ItemResource($item->load('product'));
+        $data = array_merge($request->validated(), ['created_by' => auth()->id()]);
+        $item = Item::create($data);
+        return new ItemResource($item);
     }
 
     public function update(UpdateItemRequest $request, $id): JsonResource
     {
         $item = Item::findOrFail($id);
-        $input = $request->validated();
-
-        $product = $item->product;
-        $product->update([
-            'name' => $input['name'],
-            'price' => $input['price'],
-            'is_active' => $input['is_active'],
-            'description' => $input['description'],
-            'updated_by' => auth()->id(),
-        ]);
-    
-        $item->update([
-            'item_type' => $input['item_type'],
-        ]);
-    
-        return new ItemResource($item->load('product'));
+        $data = array_merge($request->validated(), ['updated_by' => auth()->id()]);
+        $item->update($data);
+        return ItemResource::make($item);
     }
 
     public function destroy(Item $item): Response
     {
-        $product = $item->product;
-    
-        $product->update([
+        $item->update([
             'deleted_by' => auth()->id(),
         ]);
-        $product->delete();
+    
+        $item->delete();
     
         return response()->noContent();
     }

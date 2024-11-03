@@ -15,6 +15,7 @@ class UpdateMissionRequest extends FormRequest
             'reward_type' => ['nullable', 'string', 'max:255'],
             'reward_value' => ['nullable', 'numeric'],
             'is_active' => ['required', 'boolean'],
+            'product_rewarded_id' => ['nullable', 'exists:products,id'],
         ];
     }
 }

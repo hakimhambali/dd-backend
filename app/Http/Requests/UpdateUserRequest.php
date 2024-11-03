@@ -19,7 +19,7 @@ class UpdateUserRequest extends FormRequest
             'staff_no' => ['nullable', 'string', 'max:255'],
             'nric_passport' => ['nullable', 'string', 'max:255'],
             'phone_number' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', 'string', 'in:Admin,Superadmin'],
+            'role' => ['required', 'string', 'in:admin,superadmin'],
         ];
     }
 }

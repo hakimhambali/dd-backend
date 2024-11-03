@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameUserController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SkinController;
 use App\Http\Controllers\VoucherController;
@@ -21,6 +22,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     Route::apiResource('gameusers', GameUserController::class);
+
+    Route::apiResource('products', ProductController::class)->except(['show']);
+    Route::get('/products/items', [ProductController::class, 'getItems']);
+    Route::get('/products/products', [ProductController::class, 'getProducts']);
+    
     Route::apiResource('items', ItemController::class);
     Route::apiResource('skins', SkinController::class);
     Route::apiResource('vouchers', VoucherController::class);

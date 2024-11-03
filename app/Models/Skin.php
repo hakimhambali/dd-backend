@@ -33,7 +33,7 @@ class Skin extends Model
         });
 
         // Search related Product fields
-        $query->when($request->query('code') || $request->query('name') || $request->query('product_type') || $request->query('is_active'), function (Builder $query) use ($request) {
+        $query->when($request->query('code') || $request->query('name') || $request->query('description') || $request->query('product_type') || $request->query('is_active'), function (Builder $query) use ($request) {
             $query->whereHas('product', function (Builder $query) use ($request) {
                 $query
                     ->when($request->query('code'), function (Builder $query, string $code) {

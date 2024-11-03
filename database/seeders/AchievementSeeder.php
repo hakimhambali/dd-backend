@@ -14,10 +14,9 @@ class AchievementSeeder extends Seeder
             [
                 'description' => 'Collect 10000 coins to earn 500 gold',
                 'max_score' => 10000.00,
-                'reward_type' => 'Gold',
-                'reward_value' => 500,
                 'is_active' => 1,
                 'created_by' => 1,
+                'product_rewarded_id' => 1,
             ]
         );
 
@@ -38,10 +37,11 @@ class AchievementSeeder extends Seeder
             [
                 'description' => 'Run for total 500 kilometers to earn 1000 gold',
                 'max_score' => 500.00,
-                'reward_type' => 'Gold',
+                'reward_type' => 'Gem',
                 'reward_value' => 1000,
                 'is_active' => 1,
                 'created_by' => 1,
+                'product_rewarded_id' => 3,
             ]
         );
     }

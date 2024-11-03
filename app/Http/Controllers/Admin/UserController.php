@@ -32,8 +32,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function index(): AnonymousResourceCollection
     {
-        $user = User::with('profile')->search(request()); 
-        return UserResource::collection($this->paginateOrGet($user));
+        $users = User::with(['profile', 'roles'])->search(request()); 
+        return UserResource::collection($this->paginateOrGet($users));
     }
 
     public function store(StoreUserRequest $request): JsonResource

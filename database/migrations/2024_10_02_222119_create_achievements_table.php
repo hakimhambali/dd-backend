@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->text('description')->nullable();
             $table->decimal('max_score', 8, 2);
-            $table->string('reward_type');
-            $table->decimal('reward_value', 8, 2);
+            $table->string('reward_type')->nullable();
+            $table->integer('reward_value')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->foreignId('product_rewarded_id')->nullable()->constrained('products');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();

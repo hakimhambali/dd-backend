@@ -22,7 +22,7 @@ class AchievementController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        $achievements = Achievement::search(request());
+        $achievements = Achievement::with('productRewarded')->search(request());
         return AchievementResource::collection($this->paginateOrGet($achievements));
     }
 
@@ -43,7 +43,7 @@ class AchievementController extends Controller
             }
         }
 
-        return new AchievementResource($achievement);
+        return new AchievementResource($achievement->load('productRewarded'));
     }
 
     public function update(UpdateAchievementRequest $request, $id): JsonResource
@@ -71,7 +71,7 @@ class AchievementController extends Controller
                 ->delete();
         }
     
-        return new AchievementResource($achievement);
+        return new AchievementResource($achievement->load('productRewarded'));
     }
 
     public function destroy(Achievement $achievement): Response

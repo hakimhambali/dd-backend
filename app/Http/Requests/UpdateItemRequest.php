@@ -9,11 +9,7 @@ class UpdateItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string'],
-            'price' => ['nullable', 'numeric'],
             'item_type' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-            'is_active' => ['nullable', 'boolean'],
         ];
     }
 }

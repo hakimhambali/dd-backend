@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skins', function (Blueprint $table) {
+        Schema::create('item_product', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('skin_type');
+            $table->integer('count');
+            $table->timestamps();
+
+            $table->unique(['item_id', 'product_id']);
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('skins');
+        Schema::dropIfExists('item_product');
     }
 };

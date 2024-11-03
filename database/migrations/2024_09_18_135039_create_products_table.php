@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('code')->nullable()->unique();
             $table->string('name')->unique();
-            $table->decimal('price');
+            $table->decimal('price_real', 8, 2);
+            $table->string('price_game_type')->nullable();
+            $table->integer('price_game')->nullable();
             $table->string('product_type');
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);

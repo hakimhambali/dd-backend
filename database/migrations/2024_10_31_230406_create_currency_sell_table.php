@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skins', function (Blueprint $table) {
+        Schema::create('currency_sell', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('skin_type');
+            $table->string('currency_type');
+            $table->integer('currency_value');
+            $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('skins');
+        Schema::dropIfExists('currency_sell');
     }
 };

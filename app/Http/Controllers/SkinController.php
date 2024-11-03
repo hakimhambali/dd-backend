@@ -26,31 +26,38 @@ class SkinController extends Controller
         return SkinResource::collection($this->paginateOrGet($skins));
     }
 
-    // public function show(Skin $skin): JsonResource
-    // {
-    //     return new SkinResource($skin);
-    // }
-
     public function store(StoreSkinRequest $request): JsonResource
     {
         $input = $request->validated();
 
         $productData = [
             'name' => $input['name'],
-            'price' => $input['price'],
+            'price_real' => $input['price_real'],
+            'price_game' => $input['price_game'],
+            'price_game_type' => $input['price_game_type'],
             'is_active' => $input['is_active'],
             'product_type' => 'Skin',
             'description' => $input['description'] ?? null,
             'created_by' => auth()->id(),
         ];
         $product = Product::create($productData);
-        $product->update([
-            'code' => 'SK_' . $product->id,
-        ]);
+
+        if ($input['skin_type'] == "Skateboard") {
+            $product->update([
+                'code' => 'SS_' . $product->id,
+            ]);
+        }
+
+        if ($input['skin_type'] == "Outfit") {
+            $product->update([
+                'code' => 'SO_' . $product->id,
+            ]);
+        }
 
         $skinData = [
             'product_id' => $product->id,
             'skin_type' => $input['skin_type'],
+            'parent_id' => $input['parent_id'] ?? null,
         ];
         $skin = Skin::create($skinData);
 
@@ -65,7 +72,9 @@ class SkinController extends Controller
         $product = $skin->product;
         $product->update([
             'name' => $input['name'],
-            'price' => $input['price'],
+            'price_real' => $input['price_real'],
+            'price_game' => $input['price_game'],
+            'price_game_type' => $input['price_game_type'],
             'is_active' => $input['is_active'],
             'description' => $input['description'],
             'updated_by' => auth()->id(),
@@ -73,6 +82,7 @@ class SkinController extends Controller
     
         $skin->update([
             'skin_type' => $input['skin_type'],
+            'parent_id' => $input['parent_id'] ?? null,
         ]);
     
         return new SkinResource($skin->load('product'));

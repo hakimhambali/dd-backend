@@ -26,12 +26,13 @@ class Achievement extends Model
         'created_by',
         'updated_by',
         'deleted_by',
+        'product_rewarded_id',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'max_score' => 'decimal:2',
-        'reward_value' => 'decimal:2',
+        'reward_value' => 'integer',
     ];
 
     protected $with = [
@@ -52,5 +53,10 @@ class Achievement extends Model
             ->when($request->query('is_active'), function (Builder $query, $is_active) {
                 $query->where('is_active', filter_var($is_active, FILTER_VALIDATE_BOOLEAN));
             });
+    }
+
+    public function productRewarded()
+    {
+        return $this->belongsTo(Product::class, 'product_rewarded_id');
     }
 }

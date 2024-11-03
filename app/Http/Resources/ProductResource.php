@@ -18,7 +18,9 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'name' => $this->name,
-            'price' => $this->price,
+            'price_real' => $this->price_real,
+            'price_game' => $this->price_game,
+            'price_game_type' => $this->price_game_type,
             'product_type' => $this->product_type,
             'description' => $this->description,
             'is_active' => $this->is_active,
@@ -28,6 +30,8 @@ class ProductResource extends JsonResource
             'created_at' => $this->created_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
             'deleted_at' => $this->deleted_at ? $this->deleted_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s') : null,
+            'items' => ItemResource::collection($this->whenLoaded('items')),
+            'skin' => $this->whenLoaded('skin') ? new SkinResource($this->whenLoaded('skin')) : null,
         ];
     }
 }

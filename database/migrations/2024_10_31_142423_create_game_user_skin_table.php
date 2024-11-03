@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('game_user_mission', function (Blueprint $table) {
+        Schema::create('game_user_skin', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mission_id')->constrained('missions')->onDelete('cascade');
             $table->foreignId('game_user_id')->constrained('game_users')->onDelete('cascade');
-            $table->boolean('is_completed')->default(false);
-            $table->decimal('score', 8, 2)->default(0);
+            $table->foreignId('skin_id')->constrained('skins')->onDelete('cascade');
             $table->timestamps();
 
-            $table->unique(['game_user_id', 'mission_id']);
+            $table->unique(['game_user_id', 'skin_id']);
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mission_game_user');
+        Schema::dropIfExists('game_user_skin');
     }
 };

@@ -10,10 +10,13 @@ class UpdateSkinRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string'],
-            'price' => ['nullable', 'numeric'],
+            'price_real' => ['required', 'numeric'],
+            'price_game' => ['nullable', 'numeric'],
+            'price_game_type' => ['nullable', 'string', 'max:255'],
             'skin_type' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
+            'parent_id' => ['nullable', 'integer', 'exists:skins,id'],
         ];
     }
 }

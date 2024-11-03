@@ -17,9 +17,10 @@ class StoreMissionRequest extends FormRequest
             'name' => ['required', 'string', 'max:255', 'unique:missions,name'],
             'description' => ['nullable', 'string'],
             'max_score' => ['required', 'numeric'],
-            'reward_type' => ['required', 'string', 'max:255'],
-            'reward_value' => ['required', 'numeric'],
+            'reward_type' => ['nullable', 'string', 'max:255', 'required_without:product_rewarded_id'],
+            'reward_value' => ['nullable', 'numeric', 'required_without:product_rewarded_id'],
             'is_active' => ['required', 'boolean'],
+            'product_rewarded_id' => ['nullable', 'exists:products,id', 'required_without:reward_type,reward_value'],
         ];
     }
 }
