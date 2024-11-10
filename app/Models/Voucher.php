@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Voucher extends Model
 {
@@ -61,5 +62,10 @@ class Voucher extends Model
             ->when($request->query('is_percentage_flatprice'), function (Builder $query, $is_percentage_flatprice) {
                 $query->where('is_percentage_flatprice', filter_var($is_percentage_flatprice, FILTER_VALIDATE_BOOLEAN));
             });
+    }
+
+    public function game_users(): BelongsToMany
+    {
+        return $this->belongsToMany(GameUser::class, 'game_user_voucher');
     }
 }

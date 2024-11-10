@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ItemResource extends JsonResource
+class GameUserVoucherResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,8 @@ class ItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'item_id' => $this->id,
-            'item_type' => $this->item_type,
-            'count' => $this->pivot->count ?? 0,
+            'gameusers' => GameUserResource::collection($this->whenLoaded('gameusers')),
+            'vouchers' => VoucherResource::collection($this->whenLoaded('items')),
         ];
     }
 }

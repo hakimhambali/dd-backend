@@ -29,6 +29,7 @@ class AchievementResource extends JsonResource
             'updated_at' => $this->updated_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
             'deleted_at' => $this->deleted_at ? $this->deleted_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s') : null,
             'product_rewarded' => $this->productRewarded ? new ProductResource($this->productRewarded) : null,
+            'product_rewarded_id' => $this->product_rewarded_id,
         ];
     }
 }

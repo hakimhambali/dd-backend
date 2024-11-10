@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Mission extends Model
 {
@@ -58,5 +59,10 @@ class Mission extends Model
     public function productRewarded()
     {
         return $this->belongsTo(Product::class, 'product_rewarded_id');
+    }
+
+    public function game_users(): BelongsToMany
+    {
+        return $this->belongsToMany(GameUser::class, 'game_user_mission');
     }
 }

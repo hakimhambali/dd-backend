@@ -15,5 +15,8 @@ class RoleSeeder extends Seeder
         Role::create(['name' => RolesEnum::SUPERADMIN->value]);
 
         Role::create(['name' => RolesEnum::ADMIN->value]);
+
+        // Role::create(['name' => RolesEnum::PLAYER->value]);
+        Role::firstOrCreate(['name' => 'player'], ['guard_name' => 'game']);
     }
 }

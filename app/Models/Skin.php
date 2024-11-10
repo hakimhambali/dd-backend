@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Skin extends Model
 {
@@ -58,5 +59,10 @@ class Skin extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function game_users(): BelongsToMany
+    {
+        return $this->belongsToMany(GameUser::class, 'game_user_skin');
     }
 }

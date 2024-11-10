@@ -9,40 +9,38 @@ class MissionSeeder extends Seeder
 {
     public function run(): void
     {
-        $mission1 = Mission::updateOrCreate(
-            ['name' => 'Coins Mania'],
-            [
-                'description' => 'Collect 1000 coins today to earn 90 gold',
-                'max_score' => 1000.00,
-                'is_active' => 1,
-                'created_by' => 1,
-                'product_rewarded_id' => 1,
-            ]
-        );
+        $names = ['Coins Mania', 'Skateboards Enthusiast', 'Marathon', 'Treasure Hunter', 'Speed Racer'];
+        $descriptions = [
+            'Collect coins to earn gold',
+            'Use skateboards to earn rewards',
+            'Run a certain distance to earn gems',
+            'Reach a high score to earn items',
+            'Complete a level to earn points'
+        ];
+        $rewardTypes = ['Gold', 'Gem'];
+        $productIds = [1, 2, 3];
+        
+        for ($i = 1; $i <= 100; $i++) {
+            $name = $names[array_rand($names)] . " " . $i;
+            $description = $descriptions[array_rand($descriptions)];
+            $maxScore = rand(10, 1000);
+            $rewardType = $rewardTypes[array_rand($rewardTypes)];
+            $rewardValue = rand(10, 200);
+            
+            $productRewardedId = $i % 5 === 0 ? $productIds[array_rand($productIds)] : null;
 
-        $mission2 = Mission::updateOrCreate(
-            ['name' => 'Skateboards Enthusiast'],
-            [
-                'description' => 'Use 10 skateboards today to earn 100 gold',
-                'max_score' => 10.00,
-                'reward_type' => 'Gold',
-                'reward_value' => 100,
-                'is_active' => 1,
-                'created_by' => 1,
-            ]
-        );
-
-        $mission3 = Mission::updateOrCreate(
-            ['name' => 'Marathon'],
-            [
-                'description' => 'Run for total 5 kilometers today to earn 50 gold',
-                'max_score' => 5.00,
-                'reward_type' => 'Gem',
-                'reward_value' => 50,
-                'is_active' => 1,
-                'created_by' => 1,
-                'product_rewarded_id' => 3,
-            ]
-        );
+            Mission::updateOrCreate(
+                ['name' => $name],
+                [
+                    'description' => $description,
+                    'max_score' => $maxScore,
+                    'reward_type' => $rewardType,
+                    'reward_value' => $rewardValue,
+                    'is_active' => 1,
+                    'created_by' => 1,
+                    'product_rewarded_id' => $productRewardedId,
+                ]
+            );
+        }
     }
 }

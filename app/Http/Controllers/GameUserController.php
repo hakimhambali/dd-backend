@@ -12,6 +12,7 @@ use App\Models\GameUser;
 use App\Http\Requests\StoreGameUserRequest;
 use App\Http\Requests\UpdateGameUserRequest;
 use App\Http\Resources\GameUserResource;
+use App\Http\Requests\StoreGameUserRewardRequest;
 
 class GameUserController extends Controller
 {
@@ -23,35 +24,24 @@ class GameUserController extends Controller
         $gameusers = $gameusers->search(request());
         return GameUserResource::collection($this->paginateOrGet($gameusers));
     }
-    
-    // public function index(): AnonymousResourceCollection
-    // {
-    //     $gameusers = GameUser::all();
-    //     return GameUserResource::collection($gameusers);
-    // }
 
-    public function show(GameUser $gameUser): JsonResource
+    public function show($id): JsonResource
     {
+        $gameUser = GameUser::find($id);
+    
+        if (!$gameUser) {
+            return new JsonResource([
+                'message' => 'Game User not found',
+            ]);
+        }
+    
         return new GameUserResource($gameUser);
     }
 
-    // public function store(StoreGameUserRequest $request): JsonResource
+    // public function show(GameUser $gameUser)
     // {
-    //     $input = $request->validated();
-    
-    //     $gameuser = GameUser::create($input);
-    
-    //     $gameuser->create([
-    //         'email' => $input['email'],
-    //         'password' => $input['password'],
-    //         'username' => $input['username'],
-    //         'date_of_birth' => $input['date_of_birth'],
-    //         'country' => $input['country'],
-    //         'platform' => $input['platform'],
-    //         'register_date' => $input['register_date'],
-    //     ]);
-    
-    //     return GameUser::make($gameuser);
+    //     return new GameUserResource($gameUser);
+    // return GameUserResource::make($gameUser);
     // }
 
     public function store(StoreGameUserRequest $request): JsonResource
@@ -75,5 +65,33 @@ class GameUserController extends Controller
         $gameUser->delete();
     
         return response()->noContent();
+    }
+
+    public function claimReward(StoreGameUserRewardRequest $request)
+    {
+        $validated = $request->validated();
+        $gameUserData = $request->input('game_user')[0] ?? null;
+        $gameUser = GameUser::findOrFail($validated['game_user_id']);
+
+        foreach ($validated['skins'] as $skinData) {
+            if (!$gameUser->skins()->where('skin_id', $skinData['skin_id'])->exists()) {
+                $gameUser->skins()->attach($skinData['skin_id']);
+            }
+        }
+
+        if ($gameUserData) {
+            $updateData = array_filter([
+                'gold_amount' => $gameUserData['gold_amount'] ?? null,
+                'gem_amount' => $gameUserData['gem_amount'] ?? null,
+            ]);
+            
+            if (!empty($updateData)) {
+                $gameUser->update($updateData);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Player claim reward successfully',
+        ], 200);
     }
 }

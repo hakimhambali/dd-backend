@@ -8,11 +8,18 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+// use Illuminate\Notifications\Notifiable;
 
-class GameUser extends Model
+class GameUser extends Model implements AuthenticatableContract
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasApiTokens, HasRoles, HasFactory, SoftDeletes, Authenticatable;
+
+    protected $id = 'id';
 
     protected $dates = ['deleted_at'];
 
@@ -20,8 +27,8 @@ class GameUser extends Model
         'email',
         'password',
         'username',
-        'gem_amount',
         'gold_amount',
+        'gem_amount',
         'date_of_birth',
         'country',
         'platform',
@@ -39,6 +46,10 @@ class GameUser extends Model
     protected $with = [
     ];
 
+    protected $hidden = [
+        'password',
+    ];
+
     public function scopeSearch(Builder $query, Request $request): void
     {
         Log::info('Search Method Invoked with Request Game User:', $request->query());
@@ -49,9 +60,6 @@ class GameUser extends Model
             ->when($request->query('username'), function (Builder $query, string $username) {
                 $query->where('username', 'like', "%$username%");
             })
-            // ->when($request->query('date_of_birth'), function (Builder $query, string $date_of_birth) {
-            //     $query->whereDate('date_of_birth', $date_of_birth);
-            // })
             ->when($request->query('country'), function (Builder $query, string $country) {
                 $query->where('country', 'like', "%$country%");
             })
@@ -66,5 +74,25 @@ class GameUser extends Model
             ->when($request->query('is_active'), function (Builder $query, string $is_active) {
                 $query->where('is_active', filter_var($is_active, FILTER_VALIDATE_BOOLEAN));
             });
+    }
+
+    public function vouchers(): BelongsToMany
+    {
+        return $this->belongsToMany(Voucher::class, 'game_user_voucher');
+    }
+
+    public function missions(): BelongsToMany
+    {
+        return $this->belongsToMany(Mission::class, 'game_user_mission');
+    }
+
+    public function achievements(): BelongsToMany
+    {
+        return $this->belongsToMany(Achievement::class, 'achievement_game_user');
+    }
+
+    public function skins(): BelongsToMany
+    {
+        return $this->belongsToMany(Skin::class, 'game_user_skin');
     }
 }
