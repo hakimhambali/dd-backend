@@ -17,8 +17,6 @@ class TransactionHistory extends Model
         'product_id',
         'game_user_id',
         'paid_real_price',
-        'paid_game_price',
-        'game_price_type',
         'transaction_date',
         'voucher_used_id',
         'voucher_earned_id',
@@ -27,7 +25,6 @@ class TransactionHistory extends Model
 
     protected $casts = [
         'paid_real_price' => 'decimal:2',
-        'paid_game_price' => 'integer',
         'transaction_date' => 'datetime',
     ];
 

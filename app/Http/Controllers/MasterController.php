@@ -116,10 +116,18 @@ class MasterController extends Controller
                 $gameUser->skins()->attach($skinData['skin_id']);
             }
         }
+
+        // Update items
+        $items = [];
+        foreach ($input['items'] as $itemData) {
+            $items[$itemData['item_id']] = ['count' => $itemData['count']];
+        }
+        $gameUser->items()->sync($items);
+
     
         return response()->json([
             'message' => 'Player data sync successfully',
-            'data' => $gameUser->fresh()->load(['missions', 'achievements', 'vouchers'])
+            'data' => $gameUser->fresh()->load(['missions', 'achievements', 'vouchers', 'skins', 'items'])
         ], 200);
     }
 

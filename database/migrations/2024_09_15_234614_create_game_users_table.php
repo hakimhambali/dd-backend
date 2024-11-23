@@ -24,7 +24,8 @@ return new class extends Migration
             $table->timestamp('register_date');
             $table->decimal('total_play_time', 8, 2)->default(0); 
             $table->boolean('is_active')->default(true);
-            $table->decimal('highest_score', 8, 2)->default(0); 
+            $table->decimal('highest_score', 8, 2)->default(0);
+            $table->timestamp('last_login');
             $table->unsignedBigInteger('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes();

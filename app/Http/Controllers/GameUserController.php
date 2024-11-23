@@ -6,13 +6,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Traits\PaginateTrait;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\GameUser;
 use App\Http\Requests\StoreGameUserRequest;
 use App\Http\Requests\UpdateGameUserRequest;
-use App\Http\Resources\GameUserResource;
+use App\Http\Requests\UpdateGameUserPasswordRequest;
 use App\Http\Requests\StoreGameUserRewardRequest;
+use App\Http\Resources\GameUserResource;
+use App\Http\Resources\GameUserSkinResource;
+use App\Http\Resources\GameUserItemResource;
 
 class GameUserController extends Controller
 {
@@ -54,7 +59,35 @@ class GameUserController extends Controller
     {
         $gameUser = GameUser::findOrFail($id);
         $gameUser->update($request->validated());
+
         return new GameUserResource($gameUser);
+    }
+
+    public function updatePassword(UpdateGameUserPasswordRequest $request)
+    {
+        $authenticatedUser = Auth::guard('game')->user();
+        Log::info('authenticatedUser: ', ['authenticatedUserData' => $authenticatedUser]);
+
+        $gameUser = GameUser::findOrFail($authenticatedUser->id);
+
+        $input = $request->validated();
+
+        if (!$gameUser || !password_verify($input['current_password'], $gameUser->password)) {
+            return response()->json(['message' => 'Incorrect password.'], 403);
+        }
+
+        if (!$gameUser || password_verify($input['new_password'], $gameUser->password)) {
+            return response()->json(['message' => 'New password must be different from current password.'], 403);
+        }
+
+        $gameUser->update([
+            'password' => bcrypt($input['new_password'])
+        ]);
+
+        return response()->json([
+            'message' => 'Password updated successfully.',
+            'user' => new GameUserResource($gameUser),
+        ], 200);
     }
 
     public function destroy(GameUser $gameUser): Response
@@ -79,6 +112,12 @@ class GameUserController extends Controller
             }
         }
 
+        $items = [];
+        foreach ($validated['items'] as $itemData) {
+            $items[$itemData['item_id']] = ['count' => $itemData['count']];
+        }
+        $gameUser->items()->sync($items);
+
         if ($gameUserData) {
             $updateData = array_filter([
                 'gold_amount' => $gameUserData['gold_amount'] ?? null,
@@ -93,5 +132,37 @@ class GameUserController extends Controller
         return response()->json([
             'message' => 'Player claim reward successfully',
         ], 200);
+    }
+
+    public function gameUserItems() 
+    {
+        $authUser = Auth::guard('game')->user();
+        Log::info('Authenticated User: ', ['authenticatedUserData' => $authUser]);
+        
+        if (!GameUser::find($authUser->id)) {
+            return new JsonResource([
+                'message' => 'Game User not found',
+            ]);
+        } else {
+            $gameUser = GameUser::with('items')->findOrFail($authUser->id);
+        }
+        
+        return new GameUserItemResource($gameUser);
+    }
+
+    public function gameUserSkins() 
+    {
+        $authUser = Auth::guard('game')->user();
+        Log::info('Authenticated User: ', ['authenticatedUserData' => $authUser]);
+
+        if (!GameUser::find($authUser->id)) {
+            return new JsonResource([
+                'message' => 'Game User not found',
+            ]);
+        } else {
+            $gameUser = GameUser::with('skins')->findOrFail($authUser->id);
+        }
+
+        return new GameUserSkinResource($gameUser);
     }
 }

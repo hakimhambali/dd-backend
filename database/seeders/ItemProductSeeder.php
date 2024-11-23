@@ -11,16 +11,19 @@ class ItemProductSeeder extends Seeder
     public function run(): void
     {
         $item1 = Item::updateOrCreate([
+            'code' => 'IT_1',
             'item_type' => 'Skateboard',
             'created_by' => 1,
         ]);
 
         $item2 = Item::updateOrCreate([
+            'code' => 'IT_2',
             'item_type' => 'StartBooster',
             'created_by' => 1,
         ]);
 
         $item3 = Item::updateOrCreate([
+            'code' => 'IT_3',
             'item_type' => 'Start2XExp',
             'created_by' => 1,
         ]);

@@ -32,15 +32,17 @@ class GameUser extends Model implements AuthenticatableContract
         'date_of_birth',
         'country',
         'platform',
-        'total_play_time',
-        'highest_score',
         'register_date',
+        'total_play_time',
         'is_active',
+        'highest_score',
+        'last_login',
     ];
 
     protected $casts = [
         'register_date' => 'datetime',
         'is_active' => 'boolean',
+        'last_login' => 'datetime',
     ];
 
     protected $with = [
@@ -94,5 +96,10 @@ class GameUser extends Model implements AuthenticatableContract
     public function skins(): BelongsToMany
     {
         return $this->belongsToMany(Skin::class, 'game_user_skin');
+    }
+
+    public function items(): BelongsToMany
+    {
+        return $this->belongsToMany(Item::class, 'game_user_item')->withPivot('count');
     }
 }

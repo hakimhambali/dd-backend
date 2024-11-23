@@ -15,6 +15,7 @@ class Item extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'code',
         'item_type',
         'created_by',
         'updated_by',
@@ -37,5 +38,10 @@ class Item extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'item_product')->withPivot('count');
+    }
+
+    public function game_users(): BelongsToMany
+    {
+        return $this->belongsToMany(GameUser::class, 'game_user_item')->withPivot('count');
     }
 }

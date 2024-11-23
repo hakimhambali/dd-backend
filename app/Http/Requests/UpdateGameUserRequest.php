@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateGameUserRequest extends FormRequest
 {
@@ -10,7 +12,6 @@ class UpdateGameUserRequest extends FormRequest
     {
         return [
             'email' => ['nullable', 'email'],
-            'password' => ['nullable', 'string', 'min:8'],
             'username' => ['nullable', 'string'],
             'gold_amount' => ['nullable', 'integer'],
             'gem_amount' => ['nullable', 'integer'],
@@ -18,5 +19,15 @@ class UpdateGameUserRequest extends FormRequest
             'country' => ['nullable', 'string'],
             'platform' => ['nullable', 'string'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'error' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreUserRequest extends FormRequest
 {
@@ -21,5 +23,15 @@ class StoreUserRequest extends FormRequest
             'phone_number' => ['required', 'string', 'max:255', 'unique:profiles,phone_number'],
             'role' => ['required', 'string', 'in:admin,superadmin'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'error' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }

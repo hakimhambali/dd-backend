@@ -33,8 +33,9 @@ class UpdateGameUserRaceRequest extends FormRequest
     {
         throw new HttpResponseException(
             response()->json([
-                'error' => 'Request data is incorrect',
-            ], 404)
+                'error' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422)
         );
     }
 }

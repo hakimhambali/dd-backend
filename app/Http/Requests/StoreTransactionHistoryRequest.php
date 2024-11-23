@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreTransactionHistoryRequest extends FormRequest
 {
@@ -17,8 +19,6 @@ class StoreTransactionHistoryRequest extends FormRequest
             'product_id' => ['required', 'integer', 'exists:products,id'],
             'game_user_id' => ['required', 'integer', 'exists:game_users,id'],
             'paid_real_price' => ['nullable', 'numeric'],
-            'game_price_type' => ['nullable', 'string'],
-            'paid_game_price' => ['nullable', 'integer'],
             'transaction_date' => ['nullable', 'date'],
             'voucher_used_id' => ['nullable', 'integer', 'exists:vouchers,id'],
             'voucher_earned_id' => ['required', 'integer', 'exists:vouchers,id'],
@@ -26,5 +26,15 @@ class StoreTransactionHistoryRequest extends FormRequest
         ];
 
         return $rules;
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'error' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }

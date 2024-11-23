@@ -20,7 +20,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '120.72',
-            'highest_score' => '1124.89'
+            'highest_score' => '1124.89',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser1->assignRole(RolesEnum::PLAYER);
 
@@ -34,7 +35,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '120.72',
-            'highest_score' => '1024.89'
+            'highest_score' => '1024.89',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser2->assignRole(RolesEnum::PLAYER);
 
@@ -48,7 +50,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '52.72',
-            'highest_score' => '1080.89'
+            'highest_score' => '1080.89',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser3->assignRole(RolesEnum::PLAYER);
 
@@ -62,7 +65,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '22.72',
-            'highest_score' => '3002.89'
+            'highest_score' => '3002.89',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser4->assignRole(RolesEnum::PLAYER);
 
@@ -76,7 +80,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '918.72',
-            'highest_score' => '6002.89'
+            'highest_score' => '6002.89',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser5->assignRole(RolesEnum::PLAYER);
 
@@ -90,7 +95,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '1918.72',
-            'highest_score' => '9002.72'
+            'highest_score' => '9002.72',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser6->assignRole(RolesEnum::PLAYER);
 
@@ -104,7 +110,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '18.72',
-            'highest_score' => '2.72'
+            'highest_score' => '2.72',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser7->assignRole(RolesEnum::PLAYER);
 
@@ -118,7 +125,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '58.72',
-            'highest_score' => '20.72'
+            'highest_score' => '20.72',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser8->assignRole(RolesEnum::PLAYER);
 
@@ -132,7 +140,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '51.72',
-            'highest_score' => '19.72'
+            'highest_score' => '19.72',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser9->assignRole(RolesEnum::PLAYER);
 
@@ -146,7 +155,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Ios',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '38.72',
-            'highest_score' => '1991.72'
+            'highest_score' => '1991.72',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser10->assignRole(RolesEnum::PLAYER);
 
@@ -160,7 +170,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Android',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '3896.72',
-            'highest_score' => '1810.72'
+            'highest_score' => '1810.72',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser11->assignRole(RolesEnum::PLAYER);
 
@@ -174,7 +185,8 @@ class GameUserSeeder extends Seeder
             'platform' => 'Huawei',
             'register_date' => '2024-09-14 09:27:40',
             'total_play_time' => '1236.72',
-            'highest_score' => '1230.72'
+            'highest_score' => '1230.72',
+            'last_login' => '2024-09-14 09:27:40'
         ]);
         $gameuser12->assignRole(RolesEnum::PLAYER);
     }

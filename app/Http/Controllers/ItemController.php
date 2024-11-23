@@ -27,8 +27,18 @@ class ItemController extends Controller
 
     public function store(StoreItemRequest $request): JsonResource
     {
-        $data = array_merge($request->validated(), ['created_by' => auth()->id()]);
-        $item = Item::create($data);
+        Log::info("StoreItemRequest");
+        $input = $request->validated();
+
+        $itemData = [
+            'item_type' => $input['item_type'],
+            'created_by' => auth()->id(),
+        ];
+        $item = Item::create($itemData);
+        $item->update([
+            'code' => 'IT_' . $item->id,
+        ]);
+
         return new ItemResource($item);
     }
 

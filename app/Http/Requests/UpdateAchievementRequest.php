@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateAchievementRequest extends FormRequest
 {
@@ -17,5 +19,15 @@ class UpdateAchievementRequest extends FormRequest
             'is_active' => ['required', 'boolean'],
             'product_rewarded_id' => ['nullable', 'exists:products,id'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'error' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }

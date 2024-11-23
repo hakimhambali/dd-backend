@@ -16,7 +16,7 @@ class GameUserVoucherResource extends JsonResource
     {
         return [
             'gameusers' => GameUserResource::collection($this->whenLoaded('gameusers')),
-            'vouchers' => VoucherResource::collection($this->whenLoaded('items')),
+            'vouchers' => VoucherResource::collection($this->whenLoaded('vouchers')),
         ];
     }
 }

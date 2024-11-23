@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('get-csrf-cookie', [AuthController::class, 'index']);
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('player/login', [PlayerAuthController::class, 'login']);
+Route::post('player/register', [PlayerAuthController::class, 'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('ping', [AuthController::class, 'index']);
@@ -29,6 +30,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('gameusers', GameUserController::class);
     Route::post('player-claim-reward', [GameUserController::class, 'claimReward']);
+    Route::put('player/updatePassword', [GameUserController::class, 'updatePassword']);
+    Route::get('player/items', [GameUserController::class, 'gameUserItems']);
+    Route::get('player/skins', [GameUserController::class, 'gameUserSkins']);
+    Route::get('player/vouchers', [GameUserVoucherController::class, 'gameUserVouchers']);
 
     Route::apiResource('products', ProductController::class)->except(['show']);
     Route::get('/products/items', [ProductController::class, 'getItems']);

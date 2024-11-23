@@ -45,6 +45,11 @@ class UpdateMasterRequest extends FormRequest
             // Skins validation
             'skins' => ['nullable', 'array'],
             'skins.*.skin_id' => ['required', 'integer', 'exists:skins,id'],
+
+            // Items validation
+            'items' => ['nullable', 'array'],
+            'items.*.item_id' => ['required', 'integer', 'exists:items,id'],
+            'items.*.count' => ['required', 'integer'],
         ];
     }
 

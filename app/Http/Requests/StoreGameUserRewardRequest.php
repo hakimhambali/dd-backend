@@ -19,6 +19,10 @@ class StoreGameUserRewardRequest extends FormRequest
             
             'skins' => ['nullable', 'array'],
             'skins.*.skin_id' => ['required', 'integer', 'exists:skins,id'],
+
+            'items' => ['nullable', 'array'],
+            'items.*.item_id' => ['required', 'integer', 'exists:items,id'],
+            'items.*.count' => ['required', 'integer'],
         ];
     }
 

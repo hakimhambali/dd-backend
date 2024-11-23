@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
         'game' => [
-            'driver' => 'token',
+            'driver' => 'sanctum',
             'provider' => 'game_users',
         ],
     ],
