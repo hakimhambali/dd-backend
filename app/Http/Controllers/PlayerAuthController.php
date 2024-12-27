@@ -18,6 +18,7 @@ class PlayerAuthController extends Controller
 {
     public function login(LoginRequest $request): JsonResponse
     {
+        Log::info("PlayerAuthController-login");
         $validated = $request->validated();
 
         // Find the user by email
@@ -81,26 +82,20 @@ class PlayerAuthController extends Controller
         return response()->json(['token' => $token], 200);
     }
 
-    public function forgotPassword(Request $request) {
-        $input = $request->validate([
-            'email' => ['required', 'email'],
-         ]);
- 
-         if (GameUser::firstWhere('email', $input['email'])) {
-             $code = Verification::generateCode();
- 
-             Verification::updateOrCreate([
-                 'subject' => $input['email'],
-                 'subject_type' => Verification::TYPE_EMAIL,
-                 'action' => Verification::ACTION_RESET_PASSWORD,
-             ], [
-                 'token' => $code,
-                 'created_at' => now()->toDateTimeString(),
-             ]);
- 
-             Mail::to($input['email'])->queue(new ResetPasswordEmail($code));
-         }
- 
-         return response()->noContent();
+    public function logout(): JsonResponse
+    {
+        Log::info("PlayerAuthController-logout");
+        $user = Auth::guard('game')->user();
+
+        Log::info('authenticatedUser: ', ['authenticatedUserData' => $user]);
+
+        if (!$user) {
+            return response()->json(['message' => 'Not authenticated.'], 401);
+        }
+
+        // Revoke the current user's token
+        $user->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logged out successfully.'], 200);
     }
 }

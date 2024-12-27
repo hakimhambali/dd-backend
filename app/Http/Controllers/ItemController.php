@@ -51,11 +51,7 @@ class ItemController extends Controller
     }
 
     public function destroy(Item $item): Response
-    {
-        $item->update([
-            'deleted_by' => auth()->id(),
-        ]);
-    
+    {    
         $item->delete();
     
         return response()->noContent();

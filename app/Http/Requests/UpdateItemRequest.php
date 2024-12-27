@@ -11,7 +11,7 @@ class UpdateItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item_type' => ['nullable', 'string'],
+            'item_type' => ['nullable', 'string', 'unique:items,item_type'],
         ];
     }
 

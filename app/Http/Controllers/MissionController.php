@@ -9,13 +9,12 @@ use App\Traits\PaginateTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Mission;
 use App\Http\Requests\StoreMissionRequest;
 use App\Http\Requests\UpdateMissionRequest;
 use App\Http\Resources\MissionResource;
-use App\Models\GameUser;
-use App\Http\Resources\GameUserResource;
 
 class MissionController extends Controller
 {
@@ -52,6 +51,8 @@ class MissionController extends Controller
 
     public function destroy(Mission $mission): Response
     {
+        Log::info('Deleting mission: ', ['mission' => $mission]);
+
         $mission->update([
             'deleted_by' => auth()->id(),
         ]);
@@ -59,5 +60,37 @@ class MissionController extends Controller
         $mission->delete();
     
         return response()->noContent();
+    }
+
+    public function permanentDestroy($id): Response
+    {
+        try {
+            $mission = Mission::withTrashed()->findOrFail($id);
+            Log::info('Delete mission Permanently: ', ['mission' => $mission]);
+        
+            $mission->forceDelete();
+
+            return response()->noContent();
+
+        } catch (ModelNotFoundException $e) {
+            Log::error('Mission not found for permanent deletion', ['id' => $id]);
+            return response()->json(['error' => 'Mission not found'], 404);
+        }
+        
+    }
+
+    public function restore($id): Response
+    {
+        $mission = Mission::withTrashed()->findOrFail($id);
+        Log::info('Restore mission: ', ['mission' => $mission]);
+    
+        if ($mission->deleted_at) {
+            $mission->restore();
+            Log::info('Restored mission successfully: ', ['id' => $id]);
+
+            return response()->noContent();
+        }
+
+        return response()->json(['message' => 'Mission is already active.'], 400);        
     }
 }

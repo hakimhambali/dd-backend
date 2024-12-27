@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreSkinRequest extends FormRequest
+class StoreCurrencyRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -20,11 +20,11 @@ class StoreSkinRequest extends FormRequest
             'price_real' => ['required', 'numeric'],
             'price_game' => ['nullable', 'numeric'],
             'price_game_type' => ['nullable', 'string', 'max:255'],
-            'skin_type' => ['required', 'string'],
-            'skin_tier' => ['required', 'string'],
+            'currency_type' => ['required', 'string'],
+            'currency_value' => ['required', 'numeric'],
             'description' => ['nullable', 'string'],
             'is_active' => ['required', 'boolean'],
-            'parent_id' => ['nullable', 'integer', 'exists:skins,id'],
+            'parent_id' => ['nullable', 'integer', 'exists:currencies,id'],
         ];
     }
 

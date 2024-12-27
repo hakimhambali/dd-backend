@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Skin extends Model
+class Currency extends Model
 {
     use HasFactory;
 
@@ -17,8 +17,8 @@ class Skin extends Model
 
     protected $fillable = [
         'product_id',
-        'skin_type',
-        'skin_tier',
+        'currency_type',
+        'currency_value',
     ];
 
     protected $casts = [
@@ -29,13 +29,10 @@ class Skin extends Model
 
     public function scopeSearch(Builder $query, Request $request): void
     {
-        // Search related Skin model
+        // Search for currency_type in the Currency model
         $query
-            ->when($request->query('skin_type'), function (Builder $query, string $skin_type) {
-                $query->where('skin_type', $skin_type);
-            })
-            ->when($request->query('skin_tier'), function (Builder $query, string $skin_tier) {
-                $query->where('skin_tier', $skin_tier);
+            ->when($request->query('currency_type'), function (Builder $query, string $currency_type) {
+                $query->where('currency_type', $currency_type);
             });
 
         // Search related Product fields
@@ -64,10 +61,5 @@ class Skin extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function game_users(): BelongsToMany
-    {
-        return $this->belongsToMany(GameUser::class, 'game_user_skin');
     }
 }

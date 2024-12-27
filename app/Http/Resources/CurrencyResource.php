@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SkinResource extends JsonResource
+class CurrencyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,8 @@ class SkinResource extends JsonResource
         return [
             'id' => $this->id,
             'product' => ProductResource::make($this->whenLoaded('product')),
-            'skin_type' => $this->skin_type,
-            'skin_tier' => $this->skin_tier,
+            'currency_type' => $this->currency_type,
+            'currency_value' => $this->currency_value,
         ];
     }
 }

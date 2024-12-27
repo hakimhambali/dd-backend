@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             GameUserSeeder::class,
             CurrencyHistorySeeder::class,
+            CurrencyProductSeeder::class,
             ItemProductSeeder::class,
             SkinProductSeeder::class,
             VoucherSeeder::class,

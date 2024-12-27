@@ -73,8 +73,12 @@ class GameUser extends Model implements AuthenticatableContract
                     $query->whereDate('register_date', $register_date);
                 }
             })
-            ->when($request->query('is_active'), function (Builder $query, string $is_active) {
-                $query->where('is_active', filter_var($is_active, FILTER_VALIDATE_BOOLEAN));
+            ->when($request->query('status'), function (Builder $query, string $status) {
+                if ($status === 'deleted') {
+                    $query->withTrashed()->whereNotNull('deleted_at');
+                } else {
+                    $query->where('is_active', filter_var($status, FILTER_VALIDATE_BOOLEAN));
+                }
             });
     }
 

@@ -12,8 +12,6 @@ class Item extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $fillable = [
         'code',
         'item_type',
@@ -30,7 +28,10 @@ class Item extends Model
 
     public function scopeSearch(Builder $query, Request $request): void
     {
-        $query->when($request->query('item_type'), function (Builder $query, string $item_type) {
+        $query->when($request->query('code'), function (Builder $query, string $code) {
+            $query->where('code', 'like', "%$code%");
+        })
+        ->when($request->query('item_type'), function (Builder $query, string $item_type) {
             $query->where('item_type', 'like', "%$item_type%");
         });
     }

@@ -9,6 +9,7 @@ use App\Traits\PaginateTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Achievement;
 use App\Models\GameUser;
@@ -76,6 +77,7 @@ class AchievementController extends Controller
 
     public function destroy(Achievement $achievement): Response
     {
+        Log::info('Deleting achievement: ', ['achievement' => $achievement]);
         $achievement->update([
             'deleted_by' => auth()->id(),
         ]);
@@ -83,5 +85,37 @@ class AchievementController extends Controller
         $achievement->delete();
     
         return response()->noContent();
+    }
+
+    public function permanentDestroy($id): Response
+    {
+        try {
+            $achievement = Achievement::withTrashed()->findOrFail($id);
+            Log::info('Delete achievement Permanently: ', ['achievement' => $achievement]);
+        
+            $achievement->forceDelete();
+
+            return response()->noContent();
+
+        } catch (ModelNotFoundException $e) {
+            Log::error('Achievement not found for permanent deletion', ['id' => $id]);
+            return response()->json(['error' => 'Achievement not found'], 404);
+        }
+        
+    }
+
+    public function restore($id): Response
+    {
+        $achievement = Achievement::withTrashed()->findOrFail($id);
+        Log::info('Restore achievement: ', ['achievement' => $achievement]);
+    
+        if ($achievement->deleted_at) {
+            $achievement->restore();
+            Log::info('Restored achievement successfully: ', ['id' => $id]);
+
+            return response()->noContent();
+        }
+
+        return response()->json(['message' => 'Achievement is already active.'], 400);        
     }
 }

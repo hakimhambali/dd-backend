@@ -29,9 +29,9 @@ class ProductResource extends JsonResource
             'deleted_by' => $this->deleted_by,
             'created_at' => $this->created_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),
-            'deleted_at' => $this->deleted_at ? $this->deleted_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s') : null,
             'items' => ItemResource::collection($this->whenLoaded('items')),
             'skin' => $this->whenLoaded('skin') ? new SkinResource($this->whenLoaded('skin')) : null,
+            'currency' => $this->whenLoaded('currency') ? new CurrencyResource($this->whenLoaded('currency')) : null,
         ];
     }
 }

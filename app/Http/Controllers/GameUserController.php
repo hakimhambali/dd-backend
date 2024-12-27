@@ -9,6 +9,7 @@ use App\Traits\PaginateTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\GameUser;
 use App\Http\Requests\StoreGameUserRequest;
@@ -90,14 +91,49 @@ class GameUserController extends Controller
         ], 200);
     }
 
-    public function destroy(GameUser $gameUser): Response
+    public function destroy($id): Response
     {
+        $gameUser = GameUser::findOrFail($id);
+        Log::info('Deleting GameUser: ', ['gameUser' => $gameUser]);
+    
         $gameUser->update([
             'deleted_by' => auth()->id(),
         ]);
         $gameUser->delete();
     
         return response()->noContent();
+    }
+
+    public function permanentDestroy($id): Response
+    {
+        try {
+            $gameUser = GameUser::withTrashed()->findOrFail($id);
+            Log::info('Delete GameUser Permanently: ', ['gameUser' => $gameUser]);
+        
+            $gameUser->forceDelete();
+
+            return response()->noContent();
+
+        } catch (ModelNotFoundException $e) {
+            Log::error('GameUser not found for permanent deletion', ['id' => $id]);
+            return response()->json(['error' => 'GameUser not found'], 404);
+        }
+        
+    }
+
+    public function restore($id): Response
+    {
+        $gameUser = GameUser::withTrashed()->findOrFail($id);
+        Log::info('Restore GameUser: ', ['gameUser' => $gameUser]);
+    
+        if ($gameUser->deleted_at) {
+            $gameUser->restore();
+            Log::info('Restored GameUser successfully: ', ['id' => $id]);
+
+            return response()->noContent();
+        }
+
+        return response()->json(['message' => 'GameUser is already active.'], 400);        
     }
 
     public function claimReward(StoreGameUserRewardRequest $request)
@@ -136,8 +172,13 @@ class GameUserController extends Controller
 
     public function gameUserItems() 
     {
+        Log::info("GameUserController-gameUserItems");
         $authUser = Auth::guard('game')->user();
         Log::info('Authenticated User: ', ['authenticatedUserData' => $authUser]);
+
+        if (!$authUser) {
+            return response()->json(['message' => 'User is not authenticated.'], 401);
+        }
         
         if (!GameUser::find($authUser->id)) {
             return new JsonResource([

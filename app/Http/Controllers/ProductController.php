@@ -25,7 +25,7 @@ class ProductController extends Controller
         }])
         ->with(['items' => function($query) {
             $query->withPivot('count');
-        }, 'skin'])
+        }, 'skin', 'currency'])
         ->search(request());
         
         return ProductResource::collection($this->paginateOrGet($products));
@@ -90,11 +90,7 @@ class ProductController extends Controller
     public function destroy(Product $product): Response
     {
         Log::info("destroy");
-        $product->update([
-            'deleted_by' => auth()->id(),
-        ]);
         $product->delete();
-    
         return response()->noContent();
     }
 

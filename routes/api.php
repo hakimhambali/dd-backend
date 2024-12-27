@@ -6,6 +6,7 @@ use App\Http\Controllers\GameUserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SkinController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\GameUserVoucherController;
 use App\Http\Controllers\GameUserMissionController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\CurrencyHistoryController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\MasterController;
+use App\Models\CurrencySell;
 use Illuminate\Support\Facades\Route;
 
 Route::get('get-csrf-cookie', [AuthController::class, 'index']);
@@ -27,9 +29,14 @@ Route::post('player/register', [PlayerAuthController::class, 'register']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('ping', [AuthController::class, 'index']);
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::post('player/logout', [PlayerAuthController::class, 'logout']);
 
     Route::apiResource('gameusers', GameUserController::class);
+    Route::delete('gameusers/permanentDestroy/{id}', [GameUserController::class, 'permanentDestroy']);
+    Route::patch('gameusers/restore/{id}', [GameUserController::class, 'restore']);
     Route::post('player-claim-reward', [GameUserController::class, 'claimReward']);
+
+    // As Player
     Route::put('player/updatePassword', [GameUserController::class, 'updatePassword']);
     Route::get('player/items', [GameUserController::class, 'gameUserItems']);
     Route::get('player/skins', [GameUserController::class, 'gameUserSkins']);
@@ -41,17 +48,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     Route::apiResource('items', ItemController::class);
     Route::apiResource('skins', SkinController::class);
+    Route::apiResource('currencies', CurrencyController::class);
 
     Route::apiResource('vouchers', VoucherController::class);
+    Route::delete('vouchers/permanentDestroy/{id}', [VoucherController::class, 'permanentDestroy']);
+    Route::patch('vouchers/restore/{id}', [VoucherController::class, 'restore']);
     Route::post('vouchers-claim', [GameUserVoucherController::class, 'playerClaimVouchers']);
 
     Route::apiResource('terrains', TerrainController::class);
+    Route::delete('terrains/permanentDestroy/{id}', [TerrainController::class, 'permanentDestroy']);
+    Route::patch('terrains/restore/{id}', [TerrainController::class, 'restore']);
 
     Route::apiResource('missions', MissionController::class)->except(['show']);
+    Route::delete('missions/permanentDestroy/{id}', [MissionController::class, 'permanentDestroy']);
+    Route::patch('missions/restore/{id}', [MissionController::class, 'restore']);
     Route::post('assign-missions-player/{game_user_id}', [GameUserMissionController::class, 'assignMissionsPlayer']);
-    // Route::post('update-missions-player', [GameUserMissionController::class, 'updateMissionsPlayer']);
 
     Route::apiResource('achievements', AchievementController::class);
+    Route::delete('achievements/permanentDestroy/{id}', [AchievementController::class, 'permanentDestroy']);
+    Route::patch('achievements/restore/{id}', [AchievementController::class, 'restore']);
     Route::post('update-achievements-player', [AchievementGameUserController::class, 'updateAchievementsPlayer']);
 
     Route::apiResource('leaderboards', LeaderboardController::class);

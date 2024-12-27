@@ -19,11 +19,6 @@ class AuthController extends Controller
 
         abort_if(!auth('web')->attempt($validated), Response::HTTP_UNAUTHORIZED, 'Invalid email or password.');
 
-        // $user = auth('web')->user();
-        // Log::info("Authenticated user:", ['user' => $user]);
-        // $roles = $user->getRoleNames(); 
-        // Log::info("User roles:", ['roles' => $roles]);
-
         $request->session()->regenerate();
 
         return response()->noContent();

@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Traits\PaginateTrait;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\Voucher;
 use App\Http\Requests\StoreVoucherRequest;
@@ -32,23 +33,16 @@ class VoucherController extends Controller
 
     public function update(UpdateVoucherRequest $request, $id): JsonResource
     {
-        // $voucher = Voucher::findOrFail($id);
-        // $input = $request->validated();
-        // $voucher->update($input);
-        // if (isset($input['products'])) {
-        //     $productIds = $input['products'];
-        //     $voucher->products()->sync($productIds);
-        // }
-        // return new VoucherResource($voucher->load('products'));
-
         $voucher = Voucher::findOrFail($id);
         $data = array_merge($request->validated(), ['updated_by' => auth()->id()]);
         $voucher->update($data);
+        
         return VoucherResource::make($voucher);
     }
     
     public function destroy(Voucher $voucher): Response
     {
+        Log::info('Deleting Voucher: ', ['voucher' => $voucher]);
         $voucher->update([
             'deleted_by' => auth()->id(),
         ]);
@@ -56,5 +50,37 @@ class VoucherController extends Controller
         $voucher->delete();
     
         return response()->noContent();
+    }
+
+    public function permanentDestroy($id): Response
+    {
+        try {
+            $voucher = Voucher::withTrashed()->findOrFail($id);
+            Log::info('Delete Voucher Permanently: ', ['Voucher' => $voucher]);
+        
+            $voucher->forceDelete();
+
+            return response()->noContent();
+
+        } catch (ModelNotFoundException $e) {
+            Log::error('Voucher not found for permanent deletion', ['id' => $id]);
+            return response()->json(['error' => 'GameUser not found'], 404);
+        }
+        
+    }
+
+    public function restore($id): Response
+    {
+        $voucher = Voucher::withTrashed()->findOrFail($id);
+        Log::info('Restore Voucher: ', ['Voucher' => $voucher]);
+    
+        if ($voucher->deleted_at) {
+            $voucher->restore();
+            Log::info('Restored Voucher successfully: ', ['id' => $id]);
+
+            return response()->noContent();
+        }
+
+        return response()->json(['message' => 'Voucher is already active.'], 400);        
     }
 }
