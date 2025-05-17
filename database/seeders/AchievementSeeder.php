@@ -37,7 +37,7 @@ class AchievementSeeder extends Seeder
             [
                 'description' => 'Run for total 500 kilometers to earn 1000 gold',
                 'max_score' => 500.00,
-                'reward_type' => 'Gem',
+                'reward_type' => 'Gold',
                 'reward_value' => 1000,
                 'is_active' => 1,
                 'created_by' => 1,

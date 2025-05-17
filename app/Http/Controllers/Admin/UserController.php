@@ -102,4 +102,9 @@ class UserController extends Controller implements HasMiddleware
 
         return response()->noContent();
     }
+
+    public function me(Request $request): JsonResource
+    {
+        return UserResource::make($request->user()->load('profile'));
+    }
 }

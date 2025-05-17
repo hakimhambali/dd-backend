@@ -43,7 +43,7 @@ class MissionSeeder extends Seeder
             $index = ($i - 1) % count($names); // Cycle through names
             $baseName = $names[$index];
             $description = $descriptions[$index];
-            $maxScore = rand(10, 1000);
+            $maxScore = rand(1, 50) * 20;
 
             // Calculate reward value based on max_score and tier values
             $rewardValue = $maxScore; // Start with max_score equivalent in gold
