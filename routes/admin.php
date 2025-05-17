@@ -3,5 +3,6 @@
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('users', UserController::class);
-Route::get('/users/me', [UserController::class, 'me']);
+Route::middleware(['role:superadmin'])->group(function () {
+    Route::apiResource('users', UserController::class)->except(['show']);
+});

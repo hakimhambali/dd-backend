@@ -102,7 +102,6 @@ class TerrainController extends Controller
 
     }
 
-
     public function permanentDestroy($id): Response
     {
         try {

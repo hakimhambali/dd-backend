@@ -18,6 +18,7 @@ use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\CurrencyHistoryController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\ProfileController;
 use App\Models\CurrencySell;
 use Illuminate\Support\Facades\Route;
 
@@ -75,4 +76,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('sync-all-data-player', [MasterController::class, 'syncAllDataPlayer']);
     Route::post('update-race-player', [MasterController::class, 'updateRacePlayer']);
+
+    //Profile
+    Route::get('/profiles/get-my-profile', [ProfileController::class, 'getMyProfile']);
 });
