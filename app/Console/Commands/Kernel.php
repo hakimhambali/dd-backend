@@ -12,10 +12,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // Schedule your leaderboard update at 12 AM daily
+        // Daily leaderboard update at 12 AM daily
         $schedule->command('leaderboards:update')->dailyAt('00:00');
 
-        $schedule->command('missions:assign')->dailyAt('00:00');
+        // Weekly mission assignment at at 12 AM Sunday
+        $schedule->command('missions:assign')->weeklyAt('00:00');
     }
 
     /**

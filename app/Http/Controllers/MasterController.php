@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
 use App\Models\GameUser;
 use App\Http\Requests\UpdateMasterRequest;
-use App\Http\Requests\UpdateGameUserRaceRequest;
+// use App\Http\Requests\UpdateGameUserRaceRequest;
 
 class MasterController extends Controller
 {
@@ -72,20 +72,20 @@ class MasterController extends Controller
         // Update achievements
         if (!empty($input['achievements'])) {
             $achievements = $input['achievements'];
-            $requestedAchievementIds = collect($achievements)->pluck('achievement_id');
+            // $requestedAchievementIds = collect($achievements)->pluck('achievement_id');
 
-            $existingAchievements = $gameUser->achievements()
-                ->whereIn('achievement_id', $requestedAchievementIds)
-                ->pluck('achievement_id');
+            // $existingAchievements = $gameUser->achievements()
+            //     ->whereIn('achievement_id', $requestedAchievementIds)
+            //     ->pluck('achievement_id');
                 
-            $missingAchievementIds = $requestedAchievementIds->diff($existingAchievements);
+            // $missingAchievementIds = $requestedAchievementIds->diff($existingAchievements);
             
-            if ($missingAchievementIds->isNotEmpty()) {
-                return response()->json([
-                    'error' => 'Some achievements are not associated with this user',
-                    'missing_achievement_ids' => $missingAchievementIds->values(),
-                ], 404);
-            }
+            // if ($missingAchievementIds->isNotEmpty()) {
+            //     return response()->json([
+            //         'error' => 'Some achievements are not associated with this user',
+            //         'missing_achievement_ids' => $missingAchievementIds->values(),
+            //     ], 404);
+            // }
         
             foreach ($achievements as $achievement) {
                 $gameUser->achievements()->updateExistingPivot(
@@ -131,80 +131,80 @@ class MasterController extends Controller
         ], 200);
     }
 
-    public function updateRacePlayer(UpdateGameUserRaceRequest $request)
-    {
-        $gameUserId = $request->input('game_user_id');
-        $missions = $request->input('missions');
-        $achievements = $request->input('achievements');
-        $gameUserData = $request->input('game_user')[0] ?? null;
+    // public function updateRacePlayer(UpdateGameUserRaceRequest $request)
+    // {
+    //     $gameUserId = $request->input('game_user_id');
+    //     $missions = $request->input('missions');
+    //     $achievements = $request->input('achievements');
+    //     $gameUserData = $request->input('game_user')[0] ?? null;
     
-        $gameUser = GameUser::findOrFail($gameUserId);
+    //     $gameUser = GameUser::findOrFail($gameUserId);
         
-        $requestedMissionIds = collect($missions)->pluck('mission_id');
+    //     $requestedMissionIds = collect($missions)->pluck('mission_id');
         
-        $existingMissions = $gameUser->missions()
-            ->whereIn('mission_id', $requestedMissionIds)
-            ->pluck('mission_id');
+    //     $existingMissions = $gameUser->missions()
+    //         ->whereIn('mission_id', $requestedMissionIds)
+    //         ->pluck('mission_id');
             
-        $missingMissionIds = $requestedMissionIds->diff($existingMissions);
+    //     $missingMissionIds = $requestedMissionIds->diff($existingMissions);
         
-        if ($missingMissionIds->isNotEmpty()) {
-            return response()->json([
-                'error' => 'Some missions are not associated with this user',
-                'missing_mission_ids' => $missingMissionIds->values(),
-            ], 404);
-        }
+    //     if ($missingMissionIds->isNotEmpty()) {
+    //         return response()->json([
+    //             'error' => 'Some missions are not associated with this user',
+    //             'missing_mission_ids' => $missingMissionIds->values(),
+    //         ], 404);
+    //     }
     
-        foreach ($missions as $mission) {
-            $gameUser->missions()->updateExistingPivot(
-                $mission['mission_id'],
-                [
-                    'is_completed' => $mission['is_completed'],
-                    'score' => $mission['score'],
-                    'updated_at' => now(),
-                ]
-            );
-        }
+    //     foreach ($missions as $mission) {
+    //         $gameUser->missions()->updateExistingPivot(
+    //             $mission['mission_id'],
+    //             [
+    //                 'is_completed' => $mission['is_completed'],
+    //                 'score' => $mission['score'],
+    //                 'updated_at' => now(),
+    //             ]
+    //         );
+    //     }
 
-        $requestedAchievementIds = collect($achievements)->pluck('achievement_id');
+    //     // $requestedAchievementIds = collect($achievements)->pluck('achievement_id');
 
-        $existingAchievements = $gameUser->achievements()
-            ->whereIn('achievement_id', $requestedAchievementIds)
-            ->pluck('achievement_id');
+    //     // $existingAchievements = $gameUser->achievements()
+    //     //     ->whereIn('achievement_id', $requestedAchievementIds)
+    //     //     ->pluck('achievement_id');
             
-        $missingAchievementIds = $requestedAchievementIds->diff($existingAchievements);
+    //     // $missingAchievementIds = $requestedAchievementIds->diff($existingAchievements);
         
-        if ($missingAchievementIds->isNotEmpty()) {
-            return response()->json([
-                'error' => 'Some achievements are not associated with this user',
-                'missing_achievement_ids' => $missingAchievementIds->values(),
-            ], 404);
-        }
+    //     // if ($missingAchievementIds->isNotEmpty()) {
+    //     //     return response()->json([
+    //     //         'error' => 'Some achievements are not associated with this user',
+    //     //         'missing_achievement_ids' => $missingAchievementIds->values(),
+    //     //     ], 404);
+    //     // }
     
-        foreach ($achievements as $achievement) {
-            $gameUser->achievements()->updateExistingPivot(
-                $achievement['achievement_id'],
-                [
-                    'is_completed' => $achievement['is_completed'],
-                    'score' => $achievement['score'],
-                    'updated_at' => now(),
-                ]
-            );
-        }
+    //     foreach ($achievements as $achievement) {
+    //         $gameUser->achievements()->updateExistingPivot(
+    //             $achievement['achievement_id'],
+    //             [
+    //                 'is_completed' => $achievement['is_completed'],
+    //                 'score' => $achievement['score'],
+    //                 'updated_at' => now(),
+    //             ]
+    //         );
+    //     }
 
-        if ($gameUserData) {
-            $updateData = array_filter([
-                'total_play_time' => $gameUserData['total_play_time'] ?? null,
-                'highest_score' => $gameUserData['highest_score'] ?? null,
-            ]);
+    //     if ($gameUserData) {
+    //         $updateData = array_filter([
+    //             'total_play_time' => $gameUserData['total_play_time'] ?? null,
+    //             'highest_score' => $gameUserData['highest_score'] ?? null,
+    //         ]);
             
-            if (!empty($updateData)) {
-                $gameUser->update($updateData);
-            }
-        }
+    //         if (!empty($updateData)) {
+    //             $gameUser->update($updateData);
+    //         }
+    //     }
     
-        return response()->json([
-            'message' => 'Player after race data updated successfully',
-        ], 200);
-    }
+    //     return response()->json([
+    //         'message' => 'Player after race data updated successfully',
+    //     ], 200);
+    // }
 }

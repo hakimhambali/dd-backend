@@ -10,7 +10,6 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\GameUserVoucherController;
 use App\Http\Controllers\GameUserMissionController;
-use App\Http\Controllers\AchievementGameUserController;
 use App\Http\Controllers\TerrainController;
 use App\Http\Controllers\MissionController;
 use App\Http\Controllers\AchievementController;
@@ -19,7 +18,7 @@ use App\Http\Controllers\CurrencyHistoryController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProfileController;
-use App\Models\CurrencySell;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('get-csrf-cookie', [AuthController::class, 'index']);
@@ -68,14 +67,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('achievements', AchievementController::class);
     Route::delete('achievements/permanentDestroy/{id}', [AchievementController::class, 'permanentDestroy']);
     Route::patch('achievements/restore/{id}', [AchievementController::class, 'restore']);
-    Route::post('update-achievements-player', [AchievementGameUserController::class, 'updateAchievementsPlayer']);
 
     Route::apiResource('leaderboards', LeaderboardController::class);
     Route::apiResource('currencyHistories', CurrencyHistoryController::class);
     Route::apiResource('transactionHistories', TransactionHistoryController::class);
 
     Route::post('sync-all-data-player', [MasterController::class, 'syncAllDataPlayer']);
-    Route::post('update-race-player', [MasterController::class, 'updateRacePlayer']);
+    // Route::post('update-race-player', [MasterController::class, 'updateRacePlayer']);
 
     //Profile
     Route::get('/profiles/get-my-profile', [ProfileController::class, 'getMyProfile']);

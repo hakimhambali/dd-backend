@@ -41,7 +41,7 @@ class MissionController extends Controller
         $mission->update($data);
         
         if ($previousIsActive && !$mission->is_active) {
-            DB::table('mission_game_user')
+            DB::table('game_user_mission')
                 ->where('mission_id', $mission->id)
                 ->delete();
         }
