@@ -6434,7 +6434,6 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Laravel\\Telescope\\TelescopeServiceProvider"
                     ]
                 }
             },

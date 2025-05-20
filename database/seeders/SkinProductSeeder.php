@@ -12,7 +12,7 @@ class SkinProductSeeder extends Seeder
     public function run(): void
     {
         $product1 = Product::updateOrCreate([
-            'code' => 'SO_4',
+            'code' => 'SO_14',
         ], [
             'name' => 'Summer Skin',
             'price_real' => 19.99,
@@ -32,7 +32,7 @@ class SkinProductSeeder extends Seeder
         ]);
 
         $product2 = Product::updateOrCreate([
-            'code' => 'SO_5',
+            'code' => 'SO_15',
         ], [
             'name' => 'Sunset Skin',
             'price_real' => 29.99,
@@ -50,7 +50,7 @@ class SkinProductSeeder extends Seeder
         ]);
 
         $product3 = Product::updateOrCreate([
-            'code' => 'SS_6',
+            'code' => 'SS_16',
         ], [
             'name' => 'Ducati',
             'price_real' => 30.99,

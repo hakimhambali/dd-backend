@@ -46,7 +46,7 @@ class AchievementSeeder extends Seeder
                 'max_score' => 10000.00,
                 'is_active' => 1,
                 'created_by' => 1,
-                'product_rewarded_id' => 11,
+                'product_rewarded_id' => 1,
             ]
         );
         $attachToAllGameUsers($achievement1);

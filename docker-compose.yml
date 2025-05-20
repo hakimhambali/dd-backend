@@ -1,0 +1,35 @@
+# version: '3.8'
+
+services:
+  laravel-app:
+    build: .
+    container_name: laravel-app
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_KEY=base64:IisK0A5T+4Vy7YQpsNXPX6sZEHPupDQDFEIhHyclNGs=
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=delivery_dash
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    depends_on:
+      - mysql
+    tty: true
+    stdin_open: true
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

@@ -29,7 +29,7 @@ class ItemProductSeeder extends Seeder
         ]);
 
         $product1 = Product::updateOrCreate([
-            'code' => 'IC_3',
+            'code' => 'IC_13',
         ], [
             'name' => 'Bundle Mania',
             'price_real' => 39.99,

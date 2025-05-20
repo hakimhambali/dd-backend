@@ -68,7 +68,7 @@ class MissionSeeder extends Seeder
             // }
 
             // Assign product_rewarded_id to 20% of missions
-            $productRewardedId = (rand(1, 100) <= 20) ? $selectedProduct->id : null;
+            // $productRewardedId = (rand(1, 100) <= 20) ? $selectedProduct->id : null;
 
             $existingCount = Mission::where('name', 'like', "$baseName%")->count();
             $name = $baseName . ' ' . ($existingCount + 1);
@@ -82,7 +82,7 @@ class MissionSeeder extends Seeder
                     'reward_value' => $rewardValue,
                     'is_active' => 1,
                     'created_by' => 1,
-                    'product_rewarded_id' => $productRewardedId,
+                    // 'product_rewarded_id' => $productRewardedId,
                 ]
             );
         }

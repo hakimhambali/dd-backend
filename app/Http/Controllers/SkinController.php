@@ -42,6 +42,12 @@ class SkinController extends Controller
         ];
         $product = Product::create($productData);
 
+        if ($input['skin_type'] == "Bicycle") {
+            $product->update([
+                'code' => 'SB_' . $product->id,
+            ]);
+        }
+
         if ($input['skin_type'] == "Skateboard") {
             $product->update([
                 'code' => 'SS_' . $product->id,

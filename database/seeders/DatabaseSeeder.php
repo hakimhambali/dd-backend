@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             MissionSeeder::class,
             AchievementSeeder::class,
             TerrainSeeder::class,
-            AchievementGameUserSeeder::class
+            // AchievementGameUserSeeder::class
         ]);
     }
 }
