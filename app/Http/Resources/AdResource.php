@@ -17,7 +17,7 @@ class AdResource extends JsonResource
         return [
             'id' => $this->id,
             'skips' => $this->skips,
-            'real_price' => $this->real_price,
+            'price_real' => $this->price_real,
             'is_active' => $this->is_active,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->foreignId('game_user_id')->constrained('game_users');
-            $table->decimal('paid_real_price', 8, 2)->nullable();
+            $table->decimal('paid_price_real', 8, 2)->nullable();
             $table->dateTime('transaction_date');
             $table->foreignId('voucher_used_id')->nullable()->constrained('vouchers');
             $table->foreignId('voucher_earned_id')->constrained('vouchers');

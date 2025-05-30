@@ -51,8 +51,8 @@ class UpdateOffers extends Command
             $usedProductIds->push($product->id);
             $offersToInsert->push([
                 'discount_percent' => 50,
-                'real_price_before_discount' => $product->price_real,
-                'real_price_after_discount' => $discountPrice($product->price_real, 50),
+                'price_real_before_discount' => $product->price_real,
+                'price_real_after_discount' => $discountPrice($product->price_real, 50),
                 'product_id' => $product->id,
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -68,8 +68,8 @@ class UpdateOffers extends Command
                 $usedProductIds->push($product->id);
                 $offersToInsert->push([
                     'discount_percent' => 30,
-                    'real_price_before_discount' => $product->price_real,
-                    'real_price_after_discount' => $discountPrice($product->price_real, 30),
+                    'price_real_before_discount' => $product->price_real,
+                    'price_real_after_discount' => $discountPrice($product->price_real, 30),
                     'product_id' => $product->id,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -85,8 +85,8 @@ class UpdateOffers extends Command
             foreach ($monthly as $product) {
                 $offersToInsert->push([
                     'discount_percent' => 10,
-                    'real_price_before_discount' => $product->price_real,
-                    'real_price_after_discount' => $discountPrice($product->price_real, 10),
+                    'price_real_before_discount' => $product->price_real,
+                    'price_real_after_discount' => $discountPrice($product->price_real, 10),
                     'product_id' => $product->id,
                     'created_at' => $now,
                     'updated_at' => $now,

@@ -17,7 +17,7 @@ class StoreAdRequest extends FormRequest
     {
         return [
             'skips' => ['required', 'integer', 'unique:ads,skips'],
-            'real_price' => ['required', 'numeric'],
+            'price_real' => ['required', 'numeric'],
             'is_active' => ['required', 'boolean'],
         ];
     }

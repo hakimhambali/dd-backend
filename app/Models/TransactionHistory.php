@@ -16,7 +16,7 @@ class TransactionHistory extends Model
     protected $fillable = [
         'product_id',
         'game_user_id',
-        'paid_real_price',
+        'paid_price_real',
         'transaction_date',
         'voucher_used_id',
         'voucher_earned_id',
@@ -24,7 +24,7 @@ class TransactionHistory extends Model
     ];
 
     protected $casts = [
-        'paid_real_price' => 'decimal:2',
+        'paid_price_real' => 'decimal:2',
         'transaction_date' => 'datetime',
     ];
 

@@ -18,7 +18,7 @@ class StoreTransactionHistoryRequest extends FormRequest
         $rules = [
             'product_id' => ['required', 'integer', 'exists:products,id'],
             'game_user_id' => ['required', 'integer', 'exists:game_users,id'],
-            'paid_real_price' => ['nullable', 'numeric'],
+            'paid_price_real' => ['nullable', 'numeric'],
             'transaction_date' => ['nullable', 'date'],
             'voucher_used_id' => ['nullable', 'integer', 'exists:vouchers,id'],
             'voucher_earned_id' => ['required', 'integer', 'exists:vouchers,id'],

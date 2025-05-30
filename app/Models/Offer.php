@@ -13,15 +13,15 @@ class Offer extends Model
     
     protected $fillable = [
         'discount_percent',
-        'real_price_before_discount',
-        'real_price_after_discount',
+        'price_real_before_discount',
+        'price_real_after_discount',
         'product_id',
     ];
 
     protected $casts = [
         'discount_percent' => 'integer',
-        'real_price_before_discount' => 'decimal:2',
-        'real_price_after_discount' => 'decimal:2',
+        'price_real_before_discount' => 'decimal:2',
+        'price_real_after_discount' => 'decimal:2',
     ];
 
     protected $with = [

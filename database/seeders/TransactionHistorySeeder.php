@@ -13,7 +13,7 @@ class TransactionHistorySeeder extends Seeder
         $transactionhistory1 = TransactionHistory::updateOrCreate([
             'product_id' => 2,
             'game_user_id' => 1,
-            'paid_real_price' => 100.18,
+            'paid_price_real' => 100.18,
             'transaction_date' => Carbon::now(),
             'voucher_earned_id' => 1,
             'voucher_used_id' => null,
@@ -23,7 +23,7 @@ class TransactionHistorySeeder extends Seeder
         $transactionhistory2 = TransactionHistory::updateOrCreate([
             'product_id' => 1,
             'game_user_id' => 1,
-            'paid_real_price' => 81.72,
+            'paid_price_real' => 81.72,
             'transaction_date' => Carbon::now()->subDays(1),
             'voucher_earned_id' => 2,
             'voucher_used_id' => 1,
@@ -33,7 +33,7 @@ class TransactionHistorySeeder extends Seeder
         $transactionhistory3 = TransactionHistory::updateOrCreate([
             'product_id' => 3,
             'game_user_id' => 2,
-            'paid_real_price' => 79.99,
+            'paid_price_real' => 79.99,
             'transaction_date' => Carbon::now()->subDays(2),
             'voucher_earned_id' => 3,
             'voucher_used_id' => 2,

@@ -5,21 +5,25 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Mission;
 use App\Models\Product;
-use App\Models\Skin;
 
 class MissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // Fetch Products with associated Skin and common tier
-        $products = Product::with(['skin', 'items'])
-        ->where(function ($query) {
-            $query->where('product_type', 'Skin')
-                ->whereHas('skin', function ($query) {
-                    $query->whereIn('skin_tier', ['common', 'uncommon']);
-                })
-                ->orWhereHas('items'); // Include products with associated items
-        })->get();
+        // Preload necessary products
+        $products = Product::with(['skin'])
+            ->where(function ($query) {
+                $query->where('product_type', 'Skin')
+                    ->whereHas('skin', function ($q) {
+                        $q->whereIn('skin_tier', ['common', 'uncommon']);
+                    })
+                    ->orWhereHas('items');
+            })->get();
+
+        if ($products->isEmpty()) {
+            $this->command->warn("No eligible products found for seeding missions.");
+            return;
+        }
 
         $names = ['Coins Mania', 'Skateboards Enthusiast', 'Marathon', 'Treasure Hunter', 'Speed Racer'];
         $descriptions = [
@@ -29,62 +33,35 @@ class MissionSeeder extends Seeder
             'Reach a high score to earn rewards',
             'Complete a level to earn points'
         ];
-        // $rewardTypes = ['Gold', 'Gem'];
 
-        // Define skin tiers and their equivalent gold values
-        // $skinGoldValues = [
-        //     'common' => 100,
-        //     'uncommon' => 1000,
-        //     'rare' => 10000,
-        //     'legendary' => 100000,
-        // ];
+        $missionsToCreate = [];
 
         for ($i = 1; $i <= 200; $i++) {
-            $index = ($i - 1) % count($names); // Cycle through names
+            $index = ($i - 1) % count($names);
             $baseName = $names[$index];
             $description = $descriptions[$index];
             $maxScore = rand(1, 50) * 20;
-
-            // Calculate reward value based on max_score and tier values
-            $rewardValue = $maxScore; // Start with max_score equivalent in gold
-
-            // Optionally include a product reward if available
-            $selectedProduct = $products->random();
-            $skin = $selectedProduct->skin;
-
-            // if ($skin && isset($skinGoldValues[$skin->skin_tier])) {
-            //     $rewardValue += $skinGoldValues[$skin->skin_tier];
-            // }
-
             $rewardType = 'Gold';
-            // Determine reward type
-            // if (strpos($description, 'gold') !== false) {
-            //     $rewardType = 'Gold';
-            // } elseif (strpos($description, 'gems') !== false) {
-            //     $rewardType = 'Gem';
-            //     $rewardValue = max(1, round($rewardValue / 100)); // Convert gold to gems, rounding to the nearest whole number
-            // } else {
-            //     $rewardType = 'Gold';
-            // }
+            $rewardValue = $maxScore;
 
-            // Assign product_rewarded_id to 20% of missions
-            // $productRewardedId = (rand(1, 100) <= 20) ? $selectedProduct->id : null;
+            // Optionally generate unique name without querying DB each time
+            $missionNumber = ceil($i / count($names)); // Generate 1, 1, 1... then 2, 2, 2...
+            $name = $baseName . ' ' . $missionNumber;
 
-            $existingCount = Mission::where('name', 'like', "$baseName%")->count();
-            $name = $baseName . ' ' . ($existingCount + 1);
-
-            Mission::updateOrCreate(
-                ['name' => $name],
-                [
-                    'description' => $description,
-                    'max_score' => $maxScore,
-                    'reward_type' => $rewardType,
-                    'reward_value' => $rewardValue,
-                    'is_active' => 1,
-                    'created_by' => 1,
-                    // 'product_rewarded_id' => $productRewardedId,
-                ]
-            );
+            $missionsToCreate[] = [
+                'name' => $name,
+                'description' => $description,
+                'max_score' => $maxScore,
+                'reward_type' => $rewardType,
+                'reward_value' => $rewardValue,
+                'is_active' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
         }
+
+        // Batch insert all missions
+        Mission::insert($missionsToCreate);
     }
 }

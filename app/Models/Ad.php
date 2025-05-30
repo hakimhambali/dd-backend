@@ -18,7 +18,7 @@ class Ad extends Model
 
     protected $fillable = [
         'skips',
-        'real_price',
+        'price_real',
         'is_active',
         'created_by',
         'updated_by',
@@ -27,7 +27,7 @@ class Ad extends Model
 
     protected $casts = [
         'skips' => 'integer',
-        'real_price' => 'decimal:2',
+        'price_real' => 'decimal:2',
         'is_active' => 'boolean',
     ];
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
             $table->integer('skips');
-            $table->decimal('real_price', 8, 2);
+            $table->decimal('price_real', 8, 2);
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

@@ -16,7 +16,7 @@ class TransactionHistoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'paid_real_price' => $this->paid_real_price,
+            'paid_price_real' => $this->paid_price_real,
             'transaction_date' => $this->transaction_date,
             'platform' => $this->platform,
             'created_at' => $this->created_at->timezone('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s'),

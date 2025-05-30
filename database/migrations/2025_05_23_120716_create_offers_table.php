@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->integer('discount_percent');
-            $table->decimal('real_price_before_discount', 8, 2);
-            $table->decimal('real_price_after_discount', 8, 2);
+            $table->decimal('price_real_before_discount', 8, 2);
+            $table->decimal('price_real_after_discount', 8, 2);
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->timestamps();
         });

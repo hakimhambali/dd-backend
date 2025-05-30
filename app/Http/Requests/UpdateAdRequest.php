@@ -17,7 +17,7 @@ class UpdateAdRequest extends FormRequest
             //     'integer',
             //     Rule::unique('ads', 'skips')->ignore($this->route('ad')->id),
             // ],
-            'real_price' => ['required', 'numeric'],
+            'price_real' => ['required', 'numeric'],
             'is_active' => ['required', 'boolean'],
         ];
     }
