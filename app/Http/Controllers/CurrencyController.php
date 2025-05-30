@@ -50,7 +50,7 @@ class CurrencyController extends Controller
             'product_id' => $product->id,
             'currency_type' => $input['currency_type'],
             'currency_value' => $input['currency_value'],
-            'parent_id' => $input['parent_id'] ?? null,
+            // 'parent_id' => $input['parent_id'] ?? null,
         ];
         $currency = Currency::create($currencyData);
 
@@ -76,7 +76,7 @@ class CurrencyController extends Controller
         $currency->update([
             'currency_type' => $input['currency_type'],
             'currency_value' => $input['currency_value'],
-            'parent_id' => $input['parent_id'] ?? null,
+            // 'parent_id' => $input['parent_id'] ?? null,
         ]);
     
         return new CurrencyResource($currency->load('product'));

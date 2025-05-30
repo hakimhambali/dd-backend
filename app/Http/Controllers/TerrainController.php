@@ -131,6 +131,6 @@ class TerrainController extends Controller
             return response()->noContent();
         }
 
-        return response()->json(['message' => 'Terrain is already active.'], 400);        
+        return response()->json(['message' => 'Terrain is not deleted therefore cannot be restored.'], 400);        
     }
 }

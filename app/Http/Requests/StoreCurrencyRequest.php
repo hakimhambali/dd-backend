@@ -24,7 +24,7 @@ class StoreCurrencyRequest extends FormRequest
             'currency_value' => ['required', 'numeric'],
             'description' => ['nullable', 'string'],
             'is_active' => ['required', 'boolean'],
-            'parent_id' => ['nullable', 'integer', 'exists:currencies,id'],
+            // 'parent_id' => ['nullable', 'integer', 'exists:currencies,id'],
         ];
     }
 

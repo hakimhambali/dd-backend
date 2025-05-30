@@ -18,6 +18,7 @@ use App\Http\Controllers\CurrencyHistoryController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('skins', SkinController::class);
     Route::apiResource('currencies', CurrencyController::class);
 
+    Route::apiResource('ads', AdController::class);
+    Route::delete('ads/permanentDestroy/{id}', [AdController::class, 'permanentDestroy']);
+    Route::patch('ads/restore/{id}', [AdController::class, 'restore']);
+    
     Route::apiResource('vouchers', VoucherController::class);
     Route::delete('vouchers/permanentDestroy/{id}', [VoucherController::class, 'permanentDestroy']);
     Route::patch('vouchers/restore/{id}', [VoucherController::class, 'restore']);

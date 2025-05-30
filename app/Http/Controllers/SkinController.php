@@ -64,7 +64,7 @@ class SkinController extends Controller
             'product_id' => $product->id,
             'skin_type' => $input['skin_type'],
             'skin_tier' => $input['skin_tier'],
-            'parent_id' => $input['parent_id'] ?? null,
+            // 'parent_id' => $input['parent_id'] ?? null,
         ];
         $skin = Skin::create($skinData);
 
@@ -90,7 +90,7 @@ class SkinController extends Controller
         $skin->update([
             'skin_type' => $input['skin_type'],
             'skin_tier' => $input['skin_tier'],
-            'parent_id' => $input['parent_id'] ?? null,
+            // 'parent_id' => $input['parent_id'] ?? null,
         ]);
     
         return new SkinResource($skin->load('product'));

@@ -81,6 +81,6 @@ class VoucherController extends Controller
             return response()->noContent();
         }
 
-        return response()->json(['message' => 'Voucher is already active.'], 400);        
+        return response()->json(['message' => 'Voucher is not deleted therefore cannot be restored.'], 400);        
     }
 }

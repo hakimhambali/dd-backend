@@ -19,7 +19,7 @@ class UpdateSkinRequest extends FormRequest
             'skin_tier' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
-            'parent_id' => ['nullable', 'integer', 'exists:skins,id'],
+            // 'parent_id' => ['nullable', 'integer', 'exists:skins,id'],
         ];
     }
 

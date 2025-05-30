@@ -133,7 +133,7 @@ class GameUserController extends Controller
             return response()->noContent();
         }
 
-        return response()->json(['message' => 'GameUser is already active.'], 400);        
+        return response()->json(['message' => 'GameUser is not deleted therefore cannot be restored.'], 400);        
     }
 
     public function claimReward(StoreGameUserRewardRequest $request)

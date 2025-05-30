@@ -17,6 +17,9 @@ class Kernel extends ConsoleKernel
 
         // Weekly mission assignment at at 12 AM Sunday
         $schedule->command('missions:assign')->weeklyAt('00:00');
+
+        // Daily offer update at 12 AM daily & 12 AM Sunday weekly & 1st month 12 AM
+        $schedule->command('offers:update')->dailyAt('00:00');
     }
 
     /**

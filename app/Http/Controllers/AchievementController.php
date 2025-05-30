@@ -116,6 +116,6 @@ class AchievementController extends Controller
             return response()->noContent();
         }
 
-        return response()->json(['message' => 'Achievement is already active.'], 400);        
+        return response()->json(['message' => 'Achievement is not deleted therefore cannot be restored.'], 400);        
     }
 }

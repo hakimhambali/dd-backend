@@ -91,6 +91,6 @@ class MissionController extends Controller
             return response()->noContent();
         }
 
-        return response()->json(['message' => 'Mission is already active.'], 400);        
+        return response()->json(['message' => 'Mission is not deleted therefore cannot be restored.'], 400);        
     }
 }

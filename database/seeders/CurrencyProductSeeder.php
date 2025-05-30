@@ -19,7 +19,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 0.99,
                 'currency_type' => 'Gold',
                 'currency_value' => 1000,
-                'description' => 'A tiny sprinkle of gold to start your journey',
+                // 'description' => 'A tiny sprinkle of gold to start your journey',
             ],
             [
                 'code' => 'CU_2',
@@ -27,7 +27,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 8.99,
                 'currency_type' => 'Gold',
                 'currency_value' => 10000,
-                'description' => 'More than crumbs give yourself a solid boost',
+                // 'description' => 'More than crumbs give yourself a solid boost',
             ],
             [
                 'code' => 'CU_3',
@@ -35,7 +35,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 87.99,
                 'currency_type' => 'Gold',
                 'currency_value' => 100000,
-                'description' => 'Starts to shine and gives you a mid tier haul',
+                // 'description' => 'Starts to shine and gives you a mid tier haul',
             ],
             [
                 'code' => 'CU_4',
@@ -43,7 +43,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 859.99,
                 'currency_type' => 'Gold',
                 'currency_value' => 1000000,
-                'description' => 'Glowing reward that keeps you going strong',
+                // 'description' => 'Glowing reward that keeps you going strong',
             ],
             [
                 'code' => 'CU_5',
@@ -51,7 +51,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 8399.99,
                 'currency_type' => 'Gold',
                 'currency_value' => 10000000,
-                'description' => 'Massive amount of gold that feels like a big win',
+                // 'description' => 'Massive amount of gold that feels like a big win',
             ],
             [
                 'code' => 'CU_6',
@@ -59,7 +59,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 81999.99,
                 'currency_type' => 'Gold',
                 'currency_value' => 100000000,
-                'description' => 'The ultimate pack filled with pure gold mania',
+                // 'description' => 'The ultimate pack filled with pure gold mania',
             ],
 
             // GEMS
@@ -69,7 +69,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 0.99,
                 'currency_type' => 'Gem',
                 'currency_value' => 10,
-                'description' => 'Your first pinch of premium spice to unlock more',
+                // 'description' => 'Your first pinch of premium spice to unlock more',
             ],
             [
                 'code' => 'CU_8',
@@ -77,7 +77,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 8.99,
                 'currency_type' => 'Gem',
                 'currency_value' => 100,
-                'description' => 'Fresh flavor that unlocks more gems for you',
+                // 'description' => 'Fresh flavor that unlocks more gems for you',
             ],
             [
                 'code' => 'CU_9',
@@ -85,7 +85,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 87.99,
                 'currency_type' => 'Gem',
                 'currency_value' => 1000,
-                'description' => 'Spice things up and gain access to more power',
+                // 'description' => 'Spice things up and gain access to more power',
             ],
             [
                 'code' => 'CU_10',
@@ -93,7 +93,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 859.99,
                 'currency_type' => 'Gem',
                 'currency_value' => 10000,
-                'description' => 'Sweet and strong gem pack to unlock cool skins',
+                // 'description' => 'Sweet and strong gem pack to unlock cool skins',
             ],
             [
                 'code' => 'CU_11',
@@ -101,7 +101,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 8399.99,
                 'currency_type' => 'Gem',
                 'currency_value' => 100000,
-                'description' => 'Rare and valuable gem pack for elite skins',
+                // 'description' => 'Rare and valuable gem pack for elite skins',
             ],
             [
                 'code' => 'CU_12',
@@ -109,7 +109,7 @@ class CurrencyProductSeeder extends Seeder
                 'price_real' => 81999.99,
                 'currency_type' => 'Gem',
                 'currency_value' => 1000000,
-                'description' => 'Ultimate gem pack filled with pure luxury',
+                // 'description' => 'Ultimate gem pack filled with pure luxury',
             ],
         ];
 
@@ -120,7 +120,7 @@ class CurrencyProductSeeder extends Seeder
                     'name' => $data['name'],
                     'price_real' => $data['price_real'],
                     'product_type' => 'Currency',
-                    'description' => $data['description'],
+                    // 'description' => $data['description'],
                     'is_active' => 1,
                     'created_by' => 1,
                 ]

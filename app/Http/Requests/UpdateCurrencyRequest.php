@@ -19,7 +19,7 @@ class UpdateCurrencyRequest extends FormRequest
             'currency_value' => ['nullable', 'numeric'],
             'description' => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
-            'parent_id' => ['nullable', 'integer', 'exists:currencies,id'],
+            // 'parent_id' => ['nullable', 'integer', 'exists:currencies,id'],
         ];
     }
 
