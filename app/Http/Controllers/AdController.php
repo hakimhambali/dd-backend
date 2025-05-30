@@ -19,23 +19,23 @@ class AdController extends Controller
 {
     use PaginateTrait;
 
-public function index(): AnonymousResourceCollection
-{
-    Log::info("AdController@index called");
+    public function index(): AnonymousResourceCollection
+    {
+        Log::info("AdController@index called");
 
-    $ads = Ad::search(request());
+        $ads = Ad::search(request());
 
-    $response = AdResource::collection($this->paginateOrGet($ads));
+        $response = AdResource::collection($this->paginateOrGet($ads));
 
-    // Convert the response to array and then log (without affecting performance in production)
-    if (config('app.debug')) {
-        Log::info('AdController@index Response Data:', [
-            'data' => $response->resolve(request())
-        ]);
+        // Convert the response to array and then log (without affecting performance in production)
+        if (config('app.debug')) {
+            Log::info('AdController@index Response Data:', [
+                'data' => $response->resolve(request())
+            ]);
+        }
+
+        return $response;
     }
-
-    return $response;
-}
 
     public function store(StoreAdRequest $request): JsonResource
     {

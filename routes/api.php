@@ -19,6 +19,7 @@ use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\OfferController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +80,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('sync-all-data-player', [MasterController::class, 'syncAllDataPlayer']);
     // Route::post('update-race-player', [MasterController::class, 'updateRacePlayer']);
+    Route::get('/offers', [OfferController::class, 'getOffers']);
 
     //Profile
     Route::get('/profiles/get-my-profile', [ProfileController::class, 'getMyProfile']);
