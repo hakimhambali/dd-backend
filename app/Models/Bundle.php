@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Product extends Model
+class Bundle extends Model
 {
     use HasFactory;
 
@@ -20,7 +20,6 @@ class Product extends Model
         'price_real',
         'price_game',
         'price_game_type',
-        'product_type',
         'description',
         'created_by',
         'updated_by',
@@ -46,31 +45,13 @@ class Product extends Model
             ->when($request->query('name'), function (Builder $query, string $name) {
                 $query->where('name', 'like', "%$name%");
             })
-            ->when($request->query('product_type'), function (Builder $query, string $product_type) {
-                $query->where('product_type', 'like', "%$product_type%");
-            })
             ->when($request->query('description'), function (Builder $query, string $description) {
                 $query->where('description', 'like', "%$description%");
             });
     }
 
-    public function items(): BelongsToMany
+    public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class, 'item_product')->withPivot('count');
-    }
-
-    public function skin(): HasOne
-    {
-        return $this->hasOne(Skin::class);
-    }
-
-    public function currency(): HasOne
-    {
-        return $this->hasOne(Currency::class);
-    }
-
-    public function bundles(): BelongsToMany
-    {
-        return $this->belongsToMany(Bundle::class, 'bundle_product');
+        return $this->belongsToMany(Product::class, 'bundle_product');
     }
 }
